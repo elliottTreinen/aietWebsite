@@ -14,7 +14,7 @@
 body{
   margin: 0;
   text-align: center;
-  font-size: 2rem;
+  font-size: 1.5rem;
   font-family: 'Alegreya', serif;
   color: var(--mainColor);
   background: var(--bgColor);
@@ -61,21 +61,22 @@ nav a:focus{
   padding-top: 15rem;
 }
 
-/* about me section */
+/* about me section
+the use of em allows this to
+be resized using font-size and
+retain its layout.*/
 
-.bio > *{
-  vertical-align: middle;
-}
 
 .bio img{
   float: right;
   height: 13em;
-  margin-left: 1rem;
+  margin-left: 1em;
 }
 
 .bio p{
+  font-size: 1.7rem;
   text-align: right;
-  width: 55rem;
+  width: 27em;
   margin-left: auto;
   margin-right: auto;
   margin-top: 25rem;
@@ -89,4 +90,40 @@ nav a:focus{
   margin-left: auto;
   margin-right: auto;
   margin-top: 60rem;
+}
+
+/* current project section*/
+
+.currentProj{
+  margin-top: 10rem;
+}
+
+.currentProj .row1 img{
+  float: right;
+  height: 13em;
+  margin-left: 1em;
+}
+
+.currentProj .row1 p{
+  text-align: right;
+  width: 37em;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.currentProj .row2{
+  margin-top: 5rem;
+}
+
+.currentProj .row2 img{
+  float: left;
+  height: 14em;
+  margin-right: 1em;
+}
+
+.currentProj .row2 p{
+  text-align: left;
+  width: 39em;
+  margin-left: auto;
+  margin-right: auto;
 }
