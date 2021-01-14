@@ -1,0 +1,73 @@
+@import url('https://fonts.googleapis.com/css2?family=Alegreya+Sans+SC:wght@300;400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Alegreya&display=swap');
+
+:root{
+  --mainColor: #d7d7d7;
+  --flairColor: #83bcfc;
+  --bgColor: #2c2a2c;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body{
+  margin: 0;
+  text-align: center;
+  font-size: 2rem;
+  font-family: 'Alegreya', serif;
+  color: var(--mainColor);
+  background: var(--bgColor);
+}
+
+h1{
+  font-family: 'Alegreya Sans SC', sans-serif;
+  font-size: 4rem;
+  font-weight: 300;
+  color: var(--flairColor);
+}
+
+h3{
+  font-size: 2.5rem;
+}
+
+/* nav menu stuff */
+
+header{
+
+}
+
+nav ul{
+
+}
+
+nav li{
+  display: inline-block;
+  margin: 3rem;
+  margin-top: .5rem;
+}
+
+nav a{
+  font-family: 'Alegreya Sans SC', sans-serif;
+  font-size: 1.5rem;
+  font-weight: 400;
+  padding: .5rem;
+  text-decoration: none;
+  text-transform: uppercase;
+  color: var(--mainColor);
+}
+
+nav a:hover,
+nav a:focus{
+  color: #fff;
+}
+
+/* welcome message */
+
+.welcome h1{
+  padding-top: 10rem;
+}
+
+.bio img{
+  float: right;
+}
