@@ -2,6 +2,8 @@
 @import url('https://fonts.googleapis.com/css2?family=Alegreya&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Anonymous+Pro&display=swap');
 
+/* =================================================== site colors */
+
 :root{
   --mainColor: #d7d7d7;
   --flairColor: #83bcfc;
@@ -11,6 +13,8 @@
 * {
   box-sizing: border-box;
 }
+
+/* =================================================== default body and headers */
 
 body{
   margin: 0;
@@ -32,7 +36,7 @@ h3{
   font-size: 2rem;
 }
 
-/* default link formatting */
+/* =================================================== default link formatting */
 
 a{
   font-family: 'Alegreya Sans SC', sans-serif;
@@ -47,7 +51,7 @@ a:focus{
   color: #fff;
 }
 
-/* nav menu stuff */
+/* =================================================== nav menu stuff */
 
 nav li{
   display: inline-block;
@@ -57,17 +61,20 @@ nav li{
   padding: .5rem;
 }
 
-/* welcome message */
+/* =================================================== welcome message */
 
 .welcome h1{
   padding-top: 15rem;
 }
 
-/* about me section
+/* =================================================== about me section
 the use of em allows this to
 be resized using font-size and
 retain its layout.*/
 
+.elliott{
+  font-size: 2.5rem;
+}
 
 .bio img{
   float: right;
@@ -84,7 +91,11 @@ retain its layout.*/
   margin-top: 25rem;
 }
 
-/* refraction simulation */
+@media(max-width: 1100){
+
+}
+
+/* =================================================== refraction simulation */
 
 .refraction p{
   font-size: 1.7rem;
@@ -94,7 +105,7 @@ retain its layout.*/
   margin-top: 60rem;
 }
 
-/* current project section*/
+/* =================================================== current project section*/
 
 .currentProj{
   margin-top: 10rem;
@@ -130,7 +141,7 @@ retain its layout.*/
   margin-right: auto;
 }
 
-/* completed game section */
+/* =================================================== completed game section */
 
 .integer {
   margin-top: 10rem;
@@ -181,10 +192,17 @@ retain its layout.*/
   background-color: #ff4141;
 }
 
-/* other experience section */
+@media(max-width: 1100){
+  .integer p .sidebar img{
+    display: none;
+  }
+}
+
+/* =================================================== other experience section */
 
 .experience{
   margin-top: 5rem;
+  margin-bottom: 10rem;
 }
 
 .experience img{
@@ -193,8 +211,8 @@ retain its layout.*/
   margin-top: 1rem;
 }
 
-/* wwu info */
-.experience .wwuCard{
+/* card formatting */
+.experience .expCard{
   display: flex;
   align-items: center;
   width: 45rem;
@@ -203,51 +221,21 @@ retain its layout.*/
   margin-top: 4rem;
 }
 
-.experience .wwuCard .expDesc{
+.experience .expCard .expDesc{
   text-align: left;
   margin-left: 2rem;
   font-size: 1.2rem;
 }
 
-.experience .wwuCard .expDesc h3{
-  margin-top: -.5rem;
+.experience .expCard .expDesc h3{
   margin-bottom: -2.3rem;
 }
 
-.experience .wwuCard .expDesc h4{
+.experience .expCard .expDesc h4{
   font-size: 1.5rem;
   margin-bottom: -.8rem;
 }
 
-.experience .wwuCard .expDesc span{
-  font-size: .8em;
-}
-
-/* realmax info */
-.experience .realmaxCard{
-  display: flex;
-  align-items: center;
-  width: 45rem;
-  margin-left: auto;
-  margin-right: auto;
-  margin-top: 4rem;
-}
-
-.experience .realmaxCard .expDesc{
-  text-align: left;
-  margin-left: 2rem;
-  font-size: 1.2rem;
-}
-
-.experience .realmaxCard .expDesc h3{
-  margin-bottom: -2.3rem;
-}
-
-.experience .realmaxCard .expDesc h4{
-  font-size: 1.5rem;
-  margin-bottom: -.8rem;
-}
-
-.experience .realmaxCard .expDesc span{
+.experience .expCard .expDesc span{
   font-size: .8em;
 }
