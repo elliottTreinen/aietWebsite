@@ -36,6 +36,20 @@ h3{
   font-size: 2rem;
 }
 
+@media(max-width: 530px){
+  body{
+    font-size: 1.1rem !important;
+  }
+
+  h1{
+    font-size: 2.5rem;
+  }
+
+  h3{
+    font-size: 1.6rem;
+  }
+}
+
 /* =================================================== default link formatting */
 
 a{
@@ -58,15 +72,44 @@ nav li{
   font-size: 1.5rem;
   margin: 2.3rem;
   margin-top: 0rem;
-  padding: .5rem;
+  padding: 0rem;
+}
+
+@media(max-width: 850px){
+  nav li{
+    display: list-item;
+    margin: 0rem;
+    text-align: left;
+  }
+
+  nav ul{
+    list-style-type: none;
+  }
 }
 
 /* =================================================== welcome message */
 
 .welcome h1{
-  padding-top: 15rem;
+  padding-top: 20vh;
 }
 
+@media(max-width: 600px){
+  .welcome h1{
+    width: 20rem;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
+@media(max-width: 530px){
+  .welcome h1{
+    width: 15rem;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
+}
 /* =================================================== about me section
 the use of em allows this to
 be resized using font-size and
@@ -91,8 +134,24 @@ retain its layout.*/
   margin-top: 25rem;
 }
 
-@media(max-width: 1100){
+@media(max-width: 1100px){
+  .bio img{
+    display: none;
+  }
 
+  .bio p{
+    text-align: center;
+    width: 25rem;
+  }
+}
+
+@media(max-width: 530px){
+
+  .bio p{
+    font-size: 1.2rem;
+    text-align: center;
+    width: 90vw;
+  }
 }
 
 /* =================================================== refraction simulation */
@@ -103,6 +162,18 @@ retain its layout.*/
   margin-left: auto;
   margin-right: auto;
   margin-top: 60rem;
+}
+
+@media(max-width: 1100px){
+  .refraction p{
+    width: 90vw !important;
+  }
+}
+
+@media(max-width: 760px){
+  .refraction p{
+    display: none !important;
+  }
 }
 
 /* =================================================== current project section*/
@@ -130,7 +201,7 @@ retain its layout.*/
 
 .currentProj .row2 img{
   float: left;
-  height: 14.5em;
+  width: 14.5em;
   margin-right: 1em;
 }
 
@@ -139,6 +210,41 @@ retain its layout.*/
   width: 41em;
   margin-left: auto;
   margin-right: auto;
+}
+
+@media(max-width: 1100px){
+
+  .currentProj p{
+    text-align: center !important;
+    width: 60vw !important;
+  }
+
+  .currentProj .row1 img{
+    display: none !important;
+  }
+
+  .currentProj .row2 img{
+    width: 60vw;
+    float: none;
+  }
+  .currentProj .row2{
+    margin-top: 0rem;
+  }
+}
+
+/* Just learned about vw. gamechanger. */
+
+@media(max-width: 600px){
+
+  .currentProj p{
+    text-align: center !important;
+    width: 90vw !important;
+  }
+
+  .currentProj .row2 img{
+    width: 90vw;
+    float: none;
+  }
 }
 
 /* =================================================== completed game section */
@@ -192,9 +298,35 @@ retain its layout.*/
   background-color: #ff4141;
 }
 
-@media(max-width: 1100){
-  .integer p .sidebar img{
-    display: none;
+@media(max-width: 1100px){
+
+  .integer p{
+    text-align: center;
+    width: 60vw !important;
+  }
+
+  .integer p .sidebar{
+    display: none !important;
+  }
+
+  .integer p .inline{
+    width: 60vw !important;
+  }
+}
+
+@media(max-width: 600px){
+
+  .integer p{
+    text-align: center;
+    width: 90vw !important;
+  }
+
+  .integer .title{
+    width: 90vw !important;
+  }
+
+  .integer p .inline{
+    width: 90vw !important;
   }
 }
 
@@ -236,6 +368,13 @@ retain its layout.*/
   margin-bottom: -.8rem;
 }
 
-.experience .expCard .expDesc span{
-  font-size: .8em;
+@media(max-width: 900px){
+  .experience .expCard{
+    flex-direction: column;
+    width: 90vw;
+  }
+
+  .experience .expCard .expDesc{
+    text-align: center;
+  }
 }
