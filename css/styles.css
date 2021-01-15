@@ -1,5 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Alegreya+Sans+SC:wght@300;400&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Alegreya&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Anonymous+Pro&display=swap');
 
 :root{
   --mainColor: #d7d7d7;
@@ -31,6 +32,21 @@ h3{
   font-size: 2rem;
 }
 
+/* default link formatting */
+
+a{
+  font-family: 'Alegreya Sans SC', sans-serif;
+  font-weight: 400;
+  text-decoration: none;
+  text-transform: uppercase;
+  color: var(--mainColor);
+}
+
+a:hover,
+a:focus{
+  color: #fff;
+}
+
 /* nav menu stuff */
 
 nav li{
@@ -38,21 +54,7 @@ nav li{
   font-size: 1.5rem;
   margin: 2.3rem;
   margin-top: 0rem;
-}
-
-nav a{
-  vertical-align: top;
-  font-family: 'Alegreya Sans SC', sans-serif;
-  font-weight: 400;
-  padding: 0rem;
-  text-decoration: none;
-  text-transform: uppercase;
-  color: var(--mainColor);
-}
-
-nav a:hover,
-nav a:focus{
-  color: #fff;
+  padding: .5rem;
 }
 
 /* welcome message */
@@ -100,7 +102,7 @@ retain its layout.*/
 
 .currentProj .row1 img{
   float: right;
-  height: 13em;
+  height: 12.5em;
   margin-left: 1em;
 }
 
@@ -112,18 +114,140 @@ retain its layout.*/
 }
 
 .currentProj .row2{
-  margin-top: 5rem;
+  margin-top: 4rem;
 }
 
 .currentProj .row2 img{
   float: left;
-  height: 14em;
+  height: 14.5em;
   margin-right: 1em;
 }
 
 .currentProj .row2 p{
   text-align: left;
-  width: 39em;
+  width: 41em;
   margin-left: auto;
   margin-right: auto;
+}
+
+/* completed game section */
+
+.integer {
+  margin-top: 10rem;
+  padding-top: 5rem;
+  padding-bottom: 5rem;
+  background: #000;
+}
+
+/* styling for the three images */
+
+.integer .title{
+  margin-top: 3rem;
+  margin-bottom: 3rem;
+  width: 25rem;
+}
+
+.integer p .sidebar{
+  float: right;
+  height: 28em;
+  margin-left: 1em;
+}
+
+.integer p .inline{
+  width: 28em;
+}
+
+.integer p{
+  text-align: right;
+  width: 45em;
+  font-family: 'Anonymous Pro', monospace;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.integer .link{
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 5rem;
+}
+
+.integer .link a{
+  background-color: #fa5c5c;
+  padding: .5rem;
+}
+
+.integer .link a:hover,
+.integer .link a:focus{
+  background-color: #ff4141;
+}
+
+/* other experience section */
+
+.experience{
+  margin-top: 5rem;
+}
+
+.experience img{
+  height: 10rem;
+  float: left;
+  margin-top: 1rem;
+}
+
+/* wwu info */
+.experience .wwuCard{
+  display: flex;
+  align-items: center;
+  width: 45rem;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 4rem;
+}
+
+.experience .wwuCard .expDesc{
+  text-align: left;
+  margin-left: 2rem;
+  font-size: 1.2rem;
+}
+
+.experience .wwuCard .expDesc h3{
+  margin-top: -.5rem;
+  margin-bottom: -2.3rem;
+}
+
+.experience .wwuCard .expDesc h4{
+  font-size: 1.5rem;
+  margin-bottom: -.8rem;
+}
+
+.experience .wwuCard .expDesc span{
+  font-size: .8em;
+}
+
+/* realmax info */
+.experience .realmaxCard{
+  display: flex;
+  align-items: center;
+  width: 45rem;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 4rem;
+}
+
+.experience .realmaxCard .expDesc{
+  text-align: left;
+  margin-left: 2rem;
+  font-size: 1.2rem;
+}
+
+.experience .realmaxCard .expDesc h3{
+  margin-bottom: -2.3rem;
+}
+
+.experience .realmaxCard .expDesc h4{
+  font-size: 1.5rem;
+  margin-bottom: -.8rem;
+}
+
+.experience .realmaxCard .expDesc span{
+  font-size: .8em;
 }
