@@ -50,6 +50,21 @@ h3{
   }
 }
 
+@media(max-width: 350px){
+  body{
+    font-size: .8rem !important;
+  }
+
+  h1{
+    font-size: 1.8rem;
+  }
+
+  h3{
+    font-size: 1.2rem;
+  }
+}
+
+
 /* =================================================== default link formatting */
 
 a{
@@ -87,6 +102,18 @@ nav li{
   }
 }
 
+@media(max-width: 530px){
+  nav li{
+    font-size: 1.2rem;
+  }
+}
+
+@media(max-width: 350px){
+  nav li{
+    font-size: .8rem;
+  }
+}
+
 /* =================================================== welcome message */
 
 .welcome h1{
@@ -104,6 +131,14 @@ nav li{
 @media(max-width: 530px){
   .welcome h1{
     width: 15rem;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
+@media(max-width: 350px){
+  .welcome h1{
+    width: 90vw;
     margin-left: auto;
     margin-right: auto;
   }
@@ -146,6 +181,15 @@ retain its layout.*/
 }
 
 @media(max-width: 530px){
+
+  .bio p{
+    font-size: 1.2rem;
+    text-align: center;
+    width: 18rem;
+  }
+}
+
+@media(max-width: 350px){
 
   .bio p{
     font-size: 1.2rem;
@@ -314,7 +358,21 @@ retain its layout.*/
   }
 }
 
-@media(max-width: 600px){
+@media(max-width: 900px){
+  .integer h1{
+    width: 30rem;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
+@media(max-width: 530px){
+
+  .integer h1{
+    width: 20rem;
+    margin-left: auto;
+    margin-right: auto;
+  }
 
   .integer p{
     text-align: center;
@@ -327,6 +385,15 @@ retain its layout.*/
 
   .integer p .inline{
     width: 90vw !important;
+  }
+}
+
+@media(max-width: 335px){
+
+  .integer h1{
+    width: 90vw;
+    margin-left: auto;
+    margin-right: auto;
   }
 }
 
@@ -376,5 +443,13 @@ retain its layout.*/
 
   .experience .expCard .expDesc{
     text-align: center;
+  }
+}
+
+@media(max-width: 700px){
+  .experience img{
+    height: 30vw;
+    float: left;
+    margin-top: 1rem;
   }
 }
