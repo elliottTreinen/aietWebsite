@@ -3,75 +3,71 @@
 @import url('https://fonts.googleapis.com/css2?family=Anonymous+Pro&display=swap');
 
 /* =================================================== site colors */
-
-:root{
+:root {
   --mainColor: #d7d7d7;
   --flairColor: #83bcfc;
   --bgColor: #2c2a2c;
+  --barColor: #282628;
 }
 
 * {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
-  transition: all 0.3s ease;
 }
 
 /* =================================================== default body and headers */
-
-body{
+body {
   text-align: center;
   font-size: 1.5rem;
   font-family: 'Alegreya', serif;
   color: var(--mainColor);
   background: var(--bgColor);
+  transition: all 2s ease;
 }
 
-h1{
+h1 {
   font-family: 'Alegreya Sans SC', sans-serif;
   font-size: 4rem;
   font-weight: 300;
   color: var(--flairColor);
 }
 
-h3{
+h3 {
   font-size: 2rem;
 }
 
 /* resposive stuff */
-
-@media(max-width: 530px){
-  body{
+@media(max-width: 530px) {
+  body {
     font-size: 1.1rem !important;
   }
 
-  h1{
+  h1 {
     font-size: 2.5rem;
   }
 
-  h3{
+  h3 {
     font-size: 1.6rem;
   }
 }
 
-@media(max-width: 350px){
-  body{
+@media(max-width: 350px) {
+  body {
     font-size: .8rem !important;
   }
 
-  h1{
+  h1 {
     font-size: 1.8rem;
   }
 
-  h3{
+  h3 {
     font-size: 1.2rem;
   }
 }
 
-
 /* =================================================== default link formatting */
-
-a{
+a {
   font-family: 'Alegreya Sans SC', sans-serif;
   font-weight: 400;
   text-decoration: none;
@@ -80,85 +76,96 @@ a{
 }
 
 a:hover,
-a:focus{
+a:focus {
   color: #fff;
 }
 
 /* =================================================== nav menu stuff */
+header {
+  position: fixed;
+  left: 0;
+  right: 0;
+  margin: auto;
+  transition: all 0.3s ease;
+}
 
-nav li{
+nav li {
+  position: relative;
   display: inline-block;
   font-size: 1.5rem;
   vertical-align: top;
   margin: 2.3rem;
   margin-top: 1rem;
+  margin-bottom: .5rem;
   transition: all 0.1s linear;
 }
 
-nav ul{
-  position: absolute;
-  left: 0;
-  right: 0;
-  margin: auto
+nav ul {
+  position: relative;
+  background: var(--bgColor);
 }
 
 nav li:hover,
-nav li:focus{
+nav li:focus {
   transform: scale(1.05);
 }
 
 /* resposive stuff */
-
-@media(max-width: 850px) and (min-height: 500px){
-  nav li{
+@media(max-width: 850px) and (min-height: 500px) {
+  nav li {
     display: list-item;
     margin: 1vh;
     text-align: center;
   }
 
-  nav ul{
+  nav ul {
     list-style-type: none;
   }
 }
 
-@media(max-width: 530px), (max-height: 500px){
-  nav li{
+@media(max-width: 530px), (max-height: 500px) {
+  nav li {
     font-size: 1.2rem;
   }
 }
 
-@media(max-width: 350px){
-  nav li{
+@media(max-width: 350px) {
+  nav li {
     font-size: .8rem;
   }
 }
 
 /* =================================================== welcome message */
+#welcome {
+  position: relative;
+  will-change: transform;
+  transition: all 1.3s ease;
+  z-index: -1;
+}
 
-#welcome h1{
+#welcome h1 {
   padding-top: 40vh;
 }
 
 /* resposive stuff */
-
-@media(max-width: 600px){
-  #welcome h1{
+@media(max-width: 600px) {
+  #welcome h1 {
     width: 20rem;
     margin-left: auto;
     margin-right: auto;
   }
 }
 
-@media(max-width: 530px){
-  #welcome h1{
+@media(max-width: 530px) {
+  #welcome h1 {
     width: 15rem;
     margin-left: auto;
     margin-right: auto;
   }
 }
 
-@media(max-width: 350px){
-  #welcome h1{
+@media(max-width: 350px) {
+  #welcome h1 {
     width: 90vw;
     margin-left: auto;
     margin-right: auto;
@@ -166,22 +173,40 @@ nav li:focus{
 }
 
 /* =================================================== about me section
-the use of em allows this to
+The use of em allows this to
 be resized using font-size and
-retain its layout.*/
+retain its layout.
 
-#elliott p{
+Probably won't do it that way
+but hey it was nice getting
+it to work.*/
+
+#bio {
+  position: relative;
+  will-change: transform;
+  transition: all 0.6s ease;
+  z-index: -1;
+}
+
+#elliott {
+  position: relative;
+  will-change: transform;
+  transition: all 0.6s ease;
+  z-index: -1;
+}
+
+#elliott p {
   font-size: 2rem;
   margin-top: 3vh;
 }
 
-#bio img{
+#bio img {
   float: right;
   height: 13em;
   margin-left: 1em;
 }
 
-#bio p{
+#bio p {
   font-size: 1.7rem;
   text-align: right;
   width: 27em;
@@ -191,30 +216,27 @@ retain its layout.*/
 }
 
 /* resposive stuff */
-
-@media(max-width: 1100px){
-  #bio img{
+@media(max-width: 1100px) {
+  #bio img {
     display: none;
   }
 
-  #bio p{
+  #bio p {
     text-align: center;
     width: 25rem;
   }
 }
 
-@media(max-width: 530px){
-
-  #bio p{
+@media(max-width: 530px) {
+  #bio p {
     font-size: 1.2rem;
     text-align: center;
     width: 18rem;
   }
 }
 
-@media(max-width: 350px){
-
-  #bio p{
+@media(max-width: 350px) {
+  #bio p {
     font-size: 1.2rem;
     text-align: center;
     width: 90vw;
@@ -222,8 +244,7 @@ retain its layout.*/
 }
 
 /* =================================================== refraction simulation */
-
-.refraction p{
+.refraction p {
   font-size: 1.7rem;
   width: 60rem;
   margin-left: auto;
@@ -232,49 +253,47 @@ retain its layout.*/
 }
 
 /* resposive stuff */
-
-@media(max-width: 1100px){
-  .refraction p{
+@media(max-width: 1100px) {
+  .refraction p {
     width: 90vw !important;
   }
 }
 
-@media(max-width: 760px){
-  .refraction p{
+@media(max-width: 760px) {
+  .refraction p {
     display: none !important;
   }
 }
 
 /* =================================================== current project section*/
-
-.currentProj{
+.currentProj {
   margin-top: 10rem;
 }
 
-.currentProj .row1 img{
+.currentProj .row1 img {
   float: right;
   height: 12.5em;
   margin-left: 1em;
 }
 
-.currentProj .row1 p{
+.currentProj .row1 p {
   text-align: right;
   width: 37em;
   margin-left: auto;
   margin-right: auto;
 }
 
-.currentProj .row2{
+.currentProj .row2 {
   margin-top: 4rem;
 }
 
-.currentProj .row2 img{
+.currentProj .row2 img {
   float: left;
   width: 14.5em;
   margin-right: 1em;
 }
 
-.currentProj .row2 p{
+.currentProj .row2 p {
   text-align: left;
   width: 41em;
   margin-left: auto;
@@ -282,70 +301,64 @@ retain its layout.*/
 }
 
 /* resposive stuff */
-
-@media(max-width: 1100px){
-
-  .currentProj p{
+@media(max-width: 1100px) {
+  .currentProj p {
     text-align: center !important;
     width: 60vw !important;
   }
 
-  .currentProj .row1 img{
+  .currentProj .row1 img {
     display: none !important;
   }
 
-  .currentProj .row2 img{
+  .currentProj .row2 img {
     width: 60vw;
     float: none;
   }
-  .currentProj .row2{
+
+  .currentProj .row2 {
     margin-top: 0rem;
   }
 }
 
 /* Just learned about vw. gamechanger. */
-
-@media(max-width: 600px){
-
-  .currentProj p{
+@media(max-width: 600px) {
+  .currentProj p {
     text-align: center !important;
     width: 90vw !important;
   }
 
-  .currentProj .row2 img{
+  .currentProj .row2 img {
     width: 90vw;
     float: none;
   }
 }
 
 /* =================================================== completed game section */
-
-.integer {
+#integer {
   margin-top: 10rem;
   padding-top: 5rem;
   padding-bottom: 5rem;
-  background: #000;
 }
 
 /* styling for the three images */
-
-.integer .title{
+#integer .title {
   margin-top: 3rem;
   margin-bottom: 3rem;
   width: 25rem;
 }
 
-.integer p .sidebar{
+#integer p .sidebar {
   float: right;
   height: 28em;
   margin-left: 1em;
 }
 
-.integer p .inline{
+#integer p .inline {
   width: 28em;
 }
 
-.integer p{
+#integer p {
   text-align: right;
   width: 45em;
   font-family: 'Anonymous Pro', monospace;
@@ -353,75 +366,70 @@ retain its layout.*/
   margin-right: auto;
 }
 
-.integer .link{
+#integer .link {
   margin-left: auto;
   margin-right: auto;
   margin-top: 5rem;
 }
 
-.integer .link a:hover,
-.integer .link a:focus{
+#integer .link a:hover,
+#integer .link a:focus {
   background-color: #ff4141;
 }
 
 /* resposive stuff */
-
-@media(max-width: 1100px){
-
-  .integer p{
+@media(max-width: 1100px) {
+  #integer p {
     text-align: center;
     width: 60vw !important;
   }
 
-  .integer p .sidebar{
+  #integer p .sidebar {
     display: none !important;
   }
 
-  .integer p .inline{
+  #integer p .inline {
     width: 60vw !important;
   }
 }
 
-@media(max-width: 900px){
-  .integer h1{
+@media(max-width: 900px) {
+  #integer h1 {
     width: 30rem;
     margin-left: auto;
     margin-right: auto;
   }
 }
 
-@media(max-width: 590px)
-{
-  .integer .link iframe{
+@media(max-width: 590px) {
+  #integer .link iframe {
     width: 90vw;
   }
 }
 
-@media(max-width: 530px){
-
-  .integer h1{
+@media(max-width: 530px) {
+  #integer h1 {
     width: 20rem;
     margin-left: auto;
     margin-right: auto;
   }
 
-  .integer p{
+  #integer p {
     text-align: center;
     width: 90vw !important;
   }
 
-  .integer .title{
+  #integer .title {
     width: 90vw !important;
   }
 
-  .integer p .inline{
+  #integer p .inline {
     width: 90vw !important;
   }
 }
 
-@media(max-width: 335px){
-
-  .integer h1{
+@media(max-width: 335px) {
+  #integer h1 {
     width: 90vw;
     margin-left: auto;
     margin-right: auto;
@@ -429,20 +437,19 @@ retain its layout.*/
 }
 
 /* =================================================== other experience section */
-
-.experience{
+.experience {
   margin-top: 5rem;
   margin-bottom: 10rem;
 }
 
-.experience img{
+.experience img {
   height: 10rem;
   float: left;
   margin-top: 1rem;
 }
 
 /* card formatting */
-.experience .expCard{
+.experience .expCard {
   display: flex;
   align-items: center;
   width: 45rem;
@@ -451,31 +458,30 @@ retain its layout.*/
   margin-top: 4rem;
 }
 
-.experience .expCard .expDesc{
+.experience .expCard .expDesc {
   text-align: left;
   margin-left: 2rem;
   font-size: 1.2rem;
 }
 
-.experience .expCard .expDesc h4{
+.experience .expCard .expDesc h4 {
   font-size: 1.5rem;
 }
 
 /* resposive stuff */
-
-@media(max-width: 900px){
-  .experience .expCard{
+@media(max-width: 900px) {
+  .experience .expCard {
     flex-direction: column;
     width: 90vw;
   }
 
-  .experience .expCard .expDesc{
+  .experience .expCard .expDesc {
     text-align: center;
   }
 }
 
-@media(max-width: 700px){
-  .experience img{
+@media(max-width: 700px) {
+  .experience img {
     height: 30vw;
     float: left;
     margin-top: 1rem;
