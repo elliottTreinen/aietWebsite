@@ -14,6 +14,7 @@
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+  transition: all 0.3s ease;
 }
 
 /* =================================================== default body and headers */
@@ -88,8 +89,10 @@ a:focus{
 nav li{
   display: inline-block;
   font-size: 1.5rem;
+  vertical-align: top;
   margin: 2.3rem;
   margin-top: 1rem;
+  transition: all 0.1s linear;
 }
 
 nav ul{
@@ -97,6 +100,11 @@ nav ul{
   left: 0;
   right: 0;
   margin: auto
+}
+
+nav li:hover,
+nav li:focus{
+  transform: scale(1.05);
 }
 
 /* resposive stuff */
@@ -127,14 +135,14 @@ nav ul{
 
 /* =================================================== welcome message */
 
-.welcome h1{
+#welcome h1{
   padding-top: 40vh;
 }
 
 /* resposive stuff */
 
 @media(max-width: 600px){
-  .welcome h1{
+  #welcome h1{
     width: 20rem;
     margin-left: auto;
     margin-right: auto;
@@ -142,7 +150,7 @@ nav ul{
 }
 
 @media(max-width: 530px){
-  .welcome h1{
+  #welcome h1{
     width: 15rem;
     margin-left: auto;
     margin-right: auto;
@@ -150,30 +158,30 @@ nav ul{
 }
 
 @media(max-width: 350px){
-  .welcome h1{
+  #welcome h1{
     width: 90vw;
     margin-left: auto;
     margin-right: auto;
   }
 }
 
-}
 /* =================================================== about me section
 the use of em allows this to
 be resized using font-size and
 retain its layout.*/
 
-.elliott{
-  font-size: 2.5rem;
+#elliott p{
+  font-size: 2rem;
+  margin-top: 3vh;
 }
 
-.bio img{
+#bio img{
   float: right;
   height: 13em;
   margin-left: 1em;
 }
 
-.bio p{
+#bio p{
   font-size: 1.7rem;
   text-align: right;
   width: 27em;
@@ -185,11 +193,11 @@ retain its layout.*/
 /* resposive stuff */
 
 @media(max-width: 1100px){
-  .bio img{
+  #bio img{
     display: none;
   }
 
-  .bio p{
+  #bio p{
     text-align: center;
     width: 25rem;
   }
@@ -197,7 +205,7 @@ retain its layout.*/
 
 @media(max-width: 530px){
 
-  .bio p{
+  #bio p{
     font-size: 1.2rem;
     text-align: center;
     width: 18rem;
@@ -206,7 +214,7 @@ retain its layout.*/
 
 @media(max-width: 350px){
 
-  .bio p{
+  #bio p{
     font-size: 1.2rem;
     text-align: center;
     width: 90vw;
