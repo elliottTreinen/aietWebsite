@@ -135,6 +135,15 @@ nav li:focus {
   }
 }
 
+/* =================================================== ember bg */
+
+canvas{
+  position: fixed;
+  z-index: -10;
+  top: 0;
+  left: 0;
+}
+
 /* =================================================== welcome message */
 #welcome {
   position: relative;
