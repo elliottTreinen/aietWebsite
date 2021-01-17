@@ -15,11 +15,10 @@ let updateMouse = (event) => {
     xpos = window.event.x + document.body.scrollLeft - 2;
     ypos = window.event.y + document.body.scrollTop - 2;
   }
-  console.log(`MOUSE POS: ${mouseX}, ${mouseY}`);
 }
 
 //I'm not entirely sure this is necessary,
 //but better safe than sorry.
-updateMouse = debounce(updateMouse, 200);
+updateMouse = debounce(updateMouse, 50);
 
 window.addEventListener('mousemove', updateMouse);

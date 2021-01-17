@@ -52,3 +52,13 @@ function dotProduct(vec1, vec2){
 function vecAngle(vec1, vec2){
   return Math.acos(dotProduct(vec1, vec2) / (vecLength(vec1) * vecLength(vec2)));
 }
+
+//interior angle of two vectors
+function intVecAngle(vec1, vec2){
+  let ang = vecAngle(vec1, vec2);
+
+  if(ang > Math.PI / 2)
+    return Math.PI - ang;
+
+  return ang;
+}

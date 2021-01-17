@@ -79,12 +79,17 @@ function updateEmbers() {
   }
 }
 
-
 //this is called to update simulation
 function simStep() {
   updateEmbers();
   renderEmbers();
-  mouseVector = diffVector(w / 2, h / 2, )
+  mouseVector = diffVector(w / 2, h / 2, mouseX, mouseY);
+  drawVector(w / 2, h / 2, mouseVector, pen);
+
+  staticVector = new Vector(100, 0);
+  drawVector(w / 2, h / 2, staticVector, pen);
+
+  console.log(`VECTOR ANGLE: ${vecAngle(mouseVector, staticVector)}`);
   window.requestAnimationFrame(simStep);
 }
 
