@@ -5,11 +5,11 @@ let scroll = 0;
 
 function debounce(func, freq) {
   let set = false;
-  return function() {
+  return function(...args) {
     if (!set) {
       setTimeout(function() {
         set = false;
-        func();
+        func(...args);
       }, freq)
       set = true;
     }
