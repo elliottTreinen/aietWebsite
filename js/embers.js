@@ -18,7 +18,7 @@ gradient.addColorStop(0, '#2c2a2c');
 
 //set to store all embers in
 let emberSet = new Set();
-let numEmbers = w * h * (.00025);
+let numEmbers = w * h * (.00015);
 
 //Simulation vectors
 let updraft = new Vector(0, -3);
@@ -58,7 +58,7 @@ Ember.prototype.update = function() {
   let mouseVec = diffVector(mouseX, mouseY, this.pos.x, this.pos.y)
   let mouseDist = vecLength(mouseVec);
   //setVecLength(mouseVec, Math.min(15, 350 / mouseDist)); //version 1
-  setVecLength(mouseVec, (mouseDist < 100 ? (90 - mouseDist) / 2 : 0)); //version 2
+  setVecLength(mouseVec, (mouseDist < 140 ? (90 - mouseDist) / 2 : 0)); //version 2
   this.pos = addVectors(this.pos, addVectors(draftSpeed, mouseVec));
 
   if (this.pos.y < 0) {
