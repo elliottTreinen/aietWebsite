@@ -3,6 +3,9 @@ let scroll = 0;
 //debounce the scroll event so my site doesn't
 //suffocate under a mountain of parchment
 
+//Also I think this might actually be a throttling
+//function, not debounce.
+
 function debounce(func, freq) {
   let set = false;
   return function(...args) {
@@ -23,9 +26,9 @@ function updateScrollY() {
   updateContent();
 }
 
-//at freq = 200 the scroll attribute will update 5 times a second
+//at freq = 50 the scroll attribute will update 20 times a second
 //while scrolling. kind of a lot but better than 100 times.
 
-updateScrollY = debounce(updateScrollY, 200);
+updateScrollY = debounce(updateScrollY, 50);
 
 window.addEventListener('scroll', updateScrollY);

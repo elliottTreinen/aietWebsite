@@ -9,12 +9,14 @@ let updateMouse = (event) => {
   if (event) {
     //FireFox
     mouseX = event.pageX;
-    mouseY = event.pageY;
+    mouseY = event.pageY - scroll;
   } else {
     //IE
-    xpos = window.event.x + document.body.scrollLeft - 2;
-    ypos = window.event.y + document.body.scrollTop - 2;
+    mouseX = window.event.x + document.body.scrollLeft - 2;
+    mouseY = window.event.y + document.body.scrollTop - 2 - scroll;
   }
+
+  console.log(`mX: ${mouseX}   mY: ${mouseY}`);
 }
 
 //I'm not entirely sure this is necessary,

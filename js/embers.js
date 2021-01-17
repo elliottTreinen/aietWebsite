@@ -12,20 +12,26 @@ emberCanvas.height = h;
 //set drawing options
 let pen = emberCanvas.getContext('2d');
 
-pen.fillStyle = 'green';
-pen.strokeStyle = 'red';
+let gradient = pen.createLinearGradient(0, 0, 0, h);
+gradient.addColorStop(1, '#83bcfc');
+gradient.addColorStop(0, '#2c2a2c');
 
 //set to store all embers in
 let emberSet = new Set();
-let numEmbers = 10;
+let numEmbers = w * h * (.00015);
+
+//Simulation vectors
+let updraft = new Vector(0, -3);
 
 //object to store data on each ember
 function Ember(startX, startY, size) {
-  this.x = startX;
-  this.y = startY;
+  this.pos = new Vector(startX, startY);
+  this.lastPos = new Vector(startX, startY);
+  this.spd = angleMagVector((Math.random() * 2 * Math.PI) - Math.PI, 1);
 
-  this.lastX = startX;
-  this.lastY = startY;
+  //vars for the wander algorithm
+  this.wanderPointer = angleMagVector((Math.random() * 2 * Math.PI) - Math.PI, 1);
+  this.wanderOffset = Math.random() * .5 + 1;
 
   this.sz = size;
 }
@@ -33,44 +39,58 @@ function Ember(startX, startY, size) {
 //each ember will draw themselves
 Ember.prototype.draw = function() {
   pen.lineWidth = this.sz;
-  pen.moveTo(this.lastX, this.lastY);
-  pen.lineTo(this.x, this.y);
+  pen.beginPath();
+  pen.moveTo(this.lastPos.x, this.lastPos.y);
+  pen.lineTo(this.pos.x, this.pos.y);
+  pen.stroke();
 }
 
 //each ember will update its own position
 Ember.prototype.update = function() {
-  this.lastX = this.x;
-  this.lastY = this.y;
-  this.y -= 9 + Math.random() * 3;
-  this.x += (6 * Math.random()) - 3;
+  this.lastPos.x = this.pos.x;
+  this.lastPos.y = this.pos.y;
 
-  if (this.y < 0) {
-    this.y = h;
-    this.lastY = this.y;
+  //wander
+  rotateVec(this.wanderPointer, Math.random() * .5 - .25);
+
+  this.spd = addVectors(this.wanderPointer, angleMagVector(vecAngle(this.spd), this.wanderOffset));
+  let draftSpeed = addVectors(this.spd, updraft);
+  let mouseVec = diffVector(mouseX, mouseY, this.pos.x, this.pos.y)
+  setVecLength(mouseVec, Math.min(15, 500 / vecLength(mouseVec)));
+  this.pos = addVectors(this.pos, addVectors(draftSpeed, mouseVec));
+
+  if (this.pos.y < 0) {
+    this.pos.y = h - 1;
+    this.lastPos.y = this.pos.y;
   }
 
-  if (this.x < 0) {
-    this.x = w - 1;
-    this.lastX = this.x;
+  if (this.pos.y > h) {
+    this.pos.y = 1;
+    this.lastPos.y = this.pos.y;
   }
 
-  if (this.x > w) {
-    this.x = 1;
-    this.lastX = this.x;
+  if (this.pos.x < 0) {
+    this.pos.x = w - 1;
+    this.lastPos.x = this.pos.x;
+  }
+
+  if (this.pos.x > w) {
+    this.pos.x = 1;
+    this.lastPos.x = this.pos.x;
   }
 }
 
+//create initial embers
 for (let i = 0; i < numEmbers; i++) {
-  emberSet.add(new Ember((w / numEmbers) * i, h, 2));
+  emberSet.add(new Ember(Math.random() * w, Math.random() * h, 1 + Math.floor(Math.random() * 3)));
 }
 
 function renderEmbers() {
+  pen.strokeStyle = gradient;
   pen.clearRect(0, 0, w, h);
-  pen.beginPath();
   for (let ember of emberSet) {
     ember.draw();
   }
-  pen.stroke();
 }
 
 function updateEmbers() {
@@ -83,13 +103,12 @@ function updateEmbers() {
 function simStep() {
   updateEmbers();
   renderEmbers();
-  mouseVector = diffVector(w / 2, h / 2, mouseX, mouseY);
-  drawVector(w / 2, h / 2, mouseVector, pen);
 
-  staticVector = new Vector(100, 0);
-  drawVector(w / 2, h / 2, staticVector, pen);
+  // mouseVector = new diffVector(w / 2, h / 2, mouseX, mouseY);
+  // drawVector(w / 2, h / 2, mouseVector, pen);
+  //
+  // console.log(`ANGLE: ${vecAngle(mouseVector)}`);
 
-  console.log(`VECTOR ANGLE: ${vecAngle(mouseVector, staticVector)}`);
   window.requestAnimationFrame(simStep);
 }
 

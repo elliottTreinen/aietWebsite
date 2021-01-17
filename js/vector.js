@@ -5,7 +5,6 @@
 //because they're so simple but you can do
 //some REALLY crazy powerful stuff with them.
 //All from code YOU wrote. Dang.
-
 function Vector(_x, _y) {
   this.x = _x;
   this.y = _y;
@@ -17,6 +16,11 @@ Vector.prototype.toString = function() {
 
 function diffVector(x1, y1, x2, y2){
   return new Vector(x2 - x1, y2 - y1);
+}
+
+//IT'S IN RADIANS. DON'T FORGET.
+function angleMagVector(angle, mag){
+  return new Vector(Math.cos(angle) * mag, Math.sin(angle) * mag);
 }
 
 function drawVector(x1, y1, vec, ctx){
@@ -32,6 +36,10 @@ function vecLength(vec){
   return Math.sqrt(vec.x * vec.x + vec.y * vec.y);
 }
 
+function vecAngle(vec){
+  return Math.atan2(vec.y, vec.x);
+}
+
 function addVectors(vec1, vec2) {
   return new Vector(vec1.x + vec2.x, vec1.y + vec2.y);
 }
@@ -45,11 +53,24 @@ function multVector(vec, mult) {
   vec.y *= mult;
 }
 
+function setVecLength(vec, length){
+  mag = vecLength(vec);
+  vec.x = (vec.x / mag) * length;
+  vec.y = (vec.y / mag) * length;
+}
+
+function rotateVec(vec, angle){
+  mag = vecLength(vec);
+  ang = vecAngle(vec);
+  vec.x = Math.cos(ang + angle) * mag;
+  vec.y = Math.sin(ang + angle) * mag;
+}
+
 function dotProduct(vec1, vec2){
   return vec1.x * vec2.x + vec1.y * vec2.y;
 }
 
-function vecAngle(vec1, vec2){
+function vecAngleDiff(vec1, vec2){
   return Math.acos(dotProduct(vec1, vec2) / (vecLength(vec1) * vecLength(vec2)));
 }
 
