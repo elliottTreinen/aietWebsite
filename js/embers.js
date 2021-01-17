@@ -8,6 +8,7 @@ let h = window.innerHeight;
 emberCanvas.width = w;
 emberCanvas.height = h;
 
+let embersUpdating = true;
 
 //set drawing options
 let pen = emberCanvas.getContext('2d');
@@ -16,12 +17,19 @@ let gradient = pen.createLinearGradient(0, 0, 0, h);
 gradient.addColorStop(1, '#83bcfc');
 gradient.addColorStop(0, '#2c2a2c');
 
+let gradient2 = pen.createLinearGradient(0, 0, 0, h);
+gradient2.addColorStop(1, '#ffcf86');
+gradient2.addColorStop(0, '#2c2a2c');
+
+let currentGradient = gradient;
+
 //set to store all embers in
 let emberSet = new Set();
-let numEmbers = w * h * (.00015);
+let numEmbers = w * h * (.00005);
 
 //Simulation vectors
 let updraft = new Vector(0, -3);
+let lastScroll = scroll;
 
 //object to store data on each ember
 function Ember(startX, startY, size) {
@@ -58,8 +66,9 @@ Ember.prototype.update = function() {
   let mouseVec = diffVector(mouseX, mouseY, this.pos.x, this.pos.y)
   let mouseDist = vecLength(mouseVec);
   //setVecLength(mouseVec, Math.min(15, 350 / mouseDist)); //version 1
-  setVecLength(mouseVec, (mouseDist < 140 ? (90 - mouseDist) / 2 : 0)); //version 2
-  this.pos = addVectors(this.pos, addVectors(draftSpeed, mouseVec));
+  setVecLength(mouseVec, (mouseDist < 100 ? (40 - mouseDist) / 4 : 0)); //version 2
+  if(embersUpdating)
+    this.pos = addVectors(this.pos, addVectors(draftSpeed, mouseVec));
 
   if (this.pos.y < 0) {
     this.pos.y = h - 1;
@@ -80,6 +89,8 @@ Ember.prototype.update = function() {
     this.pos.x = 1;
     this.lastPos.x = this.pos.x;
   }
+
+  return mouseDist < 140;
 }
 
 //create initial embers
@@ -88,17 +99,28 @@ for (let i = 0; i < numEmbers; i++) {
 }
 
 function renderEmbers() {
-  pen.strokeStyle = gradient;
+  pen.strokeStyle = currentGradient;
   pen.clearRect(0, 0, w, h);
   for (let ember of emberSet) {
     ember.draw();
   }
 }
 
+function simulateScroll(){
+  updraft.y -= scroll - lastScroll;
+  lastScroll = scroll;
+}
+
 function updateEmbers() {
+  let allCap = true;
   for (let ember of emberSet) {
-    ember.update();
+    allCap = ember.update() && allCap;
   }
+
+  if(allCap)
+    currentGradient = gradient2;
+
+  updraft.y = -3;
 }
 
 //this is called to update simulation

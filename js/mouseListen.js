@@ -16,7 +16,7 @@ let updateMouse = (event) => {
     mouseY = window.event.y + document.body.scrollTop - 2 - scroll;
   }
 
-  console.log(`mX: ${mouseX}   mY: ${mouseY}`);
+  //console.log(`mX: ${mouseX}   mY: ${mouseY}`);
 }
 
 //I'm not entirely sure this is necessary,

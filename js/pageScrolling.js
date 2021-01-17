@@ -30,7 +30,11 @@ function updateContent() {
   if(scroll > integerRect.top - window.innerHeight * (2/3))
   {
     document.body.style.background = "black";
+    embersUpdating = false;
   }else{
     document.body.style.background = "var(--bgColor)";
+    embersUpdating = true;
   }
+
+  simulateScroll();
 }

@@ -10,7 +10,7 @@ function debounce(func, freq) {
   let set = false;
   return function(...args) {
     if (!set) {
-      setTimeout(function() {
+      window.requestAnimationFrame(function() {
         set = false;
         func(...args);
       }, freq)
@@ -29,6 +29,6 @@ function updateScrollY() {
 //at freq = 50 the scroll attribute will update 20 times a second
 //while scrolling. kind of a lot but better than 100 times.
 
-updateScrollY = debounce(updateScrollY, 50);
+updateScrollY = debounce(updateScrollY);
 
 window.addEventListener('scroll', updateScrollY);
