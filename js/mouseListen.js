@@ -1,6 +1,5 @@
-//USES DEBOUNCE METHOD FROM scrollDebounce.js !!!
-let mouseX = 0;
-let mouseY = 0;
+//USES THROTTLE METHOD FROM scrollThrottle.js !!!
+let mousePos = new Vector(0, 0);
 
 
 let updateMouse = (event) => {
@@ -8,19 +7,19 @@ let updateMouse = (event) => {
   //are sent differently between browsers? Gross.
   if (event) {
     //FireFox
-    mouseX = event.pageX;
-    mouseY = event.pageY - scroll;
+    mousePos.x = event.pageX;
+    mousePos.y = event.pageY - scroll;
   } else {
     //IE
-    mouseX = window.event.x + document.body.scrollLeft - 2;
-    mouseY = window.event.y + document.body.scrollTop - 2 - scroll;
+    mousePos.x = window.event.x + document.body.scrollLeft - 2;
+    mousePos.y = window.event.y + document.body.scrollTop - 2 - scroll;
   }
 
-  //console.log(`mX: ${mouseX}   mY: ${mouseY}`);
+  //console.log(`mX: ${mousePos.x}   mY: ${mousePos.y}`);
 }
 
 //I'm not entirely sure this is necessary,
 //but better safe than sorry.
-updateMouse = debounce(updateMouse, 50);
+updateMouse = throttle(updateMouse);
 
 window.addEventListener('mousemove', updateMouse);

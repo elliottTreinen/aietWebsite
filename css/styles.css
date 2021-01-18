@@ -253,23 +253,31 @@ it to work.*/
 }
 
 /* =================================================== refraction simulation */
-.refraction p {
+#refractionSim{
+  border-color: var(--mainColor);
+  border-width: 2px;
+  border-style: dashed;
+  padding-top: 80vh;
+  margin-left: 2rem;
+  margin-right: 2rem;
+}
+
+#refraction p {
   font-size: 1.7rem;
   width: 60rem;
   margin-left: auto;
   margin-right: auto;
-  margin-top: 60rem;
 }
 
 /* resposive stuff */
 @media(max-width: 1100px) {
-  .refraction p {
+  #refraction p {
     width: 90vw !important;
   }
 }
 
 @media(max-width: 760px) {
-  .refraction p {
+  #refraction p {
     display: none !important;
   }
 }

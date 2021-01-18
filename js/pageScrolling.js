@@ -36,5 +36,6 @@ function updateContent() {
     embersUpdating = true;
   }
 
-  simulateScroll();
+  scrollEmbers();
+  scrollRefraction();
 }

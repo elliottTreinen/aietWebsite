@@ -22,9 +22,9 @@
     </nav>
   </header>
 
-  <!-- =============================================================================== PARTICLE BG -->
+  <!-- =============================================================================== CANVAS FOR BG AND REFRACT -->
 
-  <canvas id="emberCanvas"></canvas>
+  <canvas id="drawingCanvas"></canvas>
 
   <!-- =============================================================================== WELCOME MESSAGE AND BIO -->
   <section class="topReactive">
@@ -53,7 +53,8 @@
 
   <!-- =============================================================================== REFRACTION SIMULATION -->
 
-  <section class="refraction">
+  <section id="refraction">
+    <div id="refractionSim"></div>
     <p>
       In high school I made a refraction simulation for a physics class project.
       That project is what made me fall in love with programming, so I thought I'd recreate it here for you.
@@ -164,10 +165,12 @@
 </body>
 
 <script src="js/vector.js"></script>
-<script src="js/scrollDebounce.js"></script>
+<script src="js/scrollThrottle.js"></script>
 <script src="js/mouseListen.js"></script>
 <script src="js/pageScrolling.js"></script>
+<script src="js/canvasManager.js"></script>
 <script src="js/embers.js"></script>
+<script src="js/refraction.js"></script>
 
 </html>
 

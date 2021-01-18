@@ -23,12 +23,11 @@ function angleMagVector(angle, mag){
   return new Vector(Math.cos(angle) * mag, Math.sin(angle) * mag);
 }
 
-function drawVector(x1, y1, vec, ctx){
-  ctx.strokeStyle = 'green';
-  ctx.lineWidth = 2;
+//draws vec positioned with its origin at posVec using ctx.
+function drawVector(posVec, vec, ctx){
   pen.beginPath();
-  pen.moveTo(x1, y1);
-  pen.lineTo(x1 + vec.x, y1 + vec.y);
+  pen.moveTo(posVec.x, posVec.y);
+  pen.lineTo(posVec.x + vec.x, posVec.y + vec.y);
   pen.stroke();
 }
 
