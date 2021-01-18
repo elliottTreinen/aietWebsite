@@ -4,7 +4,9 @@ const simOrigin = new Vector(simBorder.x, simBorder.y);
 const simHeight = simBorder.height;
 const simWidth = simBorder.width;
 const maxBeamLength = Math.sqrt(simHeight * simHeight + simWidth * simWidth);
-const relBeamOrigin = new Vector(0, simHeight / 2);
+const relBeamOrigin = new Vector(2, simHeight / 2);
+
+let testVec = new Vector(500, 500);
 
 //this'll let us shut stuff down when offscreen
 let onScreen = false;
@@ -23,18 +25,25 @@ function updateRefraction(){
   simOrigin.y = simBorder.y;
   beamOrigin = addVectors (relBeamOrigin, simOrigin);
   mouseVector = diffVector(beamOrigin.x, beamOrigin.y, mousePos.x, mousePos.y);
-  //setVecLength(mouseVector, 2000);
+  setVecLength(mouseVector, maxBeamLength);
 }
 
 function drawRefraction(){
-  pen.lineWidth = 4;
-  pen.strokeStyle = 'black';
-  pen.beginPath();
-  pen.rect(simOrigin.x, simOrigin.y, simWidth, simHeight);
-  pen.stroke();
+  let refractionFinished = false;
 
+  pen.lineWidth = 2;
   pen.strokeStyle = '#83bcfc';
+
   drawVector(beamOrigin, mouseVector, pen);
+  drawVector(simOrigin, testVec, pen);
+
+  sect = intersection(beamOrigin, mouseVector, simOrigin, testVec);
+
+  if(sect != null){
+    pen.beginPath();
+    pen.arc(sect.x, sect.y, 10, 0, 2 * Math.PI);
+    pen.stroke();
+  }
 }
 
 //called every frame in canvasManager.js

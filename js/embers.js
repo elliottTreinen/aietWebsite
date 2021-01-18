@@ -57,10 +57,10 @@ Ember.prototype.update = function() {
   this.spd = addVectors(this.wanderPointer, angleMagVector(vecAngle(this.spd), this.wanderOffset));
   let draftSpeed = addVectors(this.spd, updraft);
 
-  //if ember is within 100px of mouse, pull it to 40px away from mouse.
+  //if ember is within 100px of mouse, pull it to 45px away from mouse.
   let mouseVec = diffVector(mousePos.x, mousePos.y, this.pos.x, this.pos.y)
   let mouseDist = vecLength(mouseVec);
-  setVecLength(mouseVec, (mouseDist < 100 ? (40 - mouseDist) / 4 : 0));
+  setVecLength(mouseVec, (mouseDist < 100 ? (45 - mouseDist) / 4 : 0));
 
   //combine the embers speed with mouse influence
   if(embersUpdating)

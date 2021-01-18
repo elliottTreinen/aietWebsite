@@ -69,6 +69,11 @@ function dotProduct(vec1, vec2){
   return vec1.x * vec2.x + vec1.y * vec2.y;
 }
 
+//2d, obviously
+function crossProduct(vec1, vec2){
+  return vec1.x * vec2.y - vec1.y * vec2.x;
+}
+
 function vecAngleDiff(vec1, vec2){
   return Math.acos(dotProduct(vec1, vec2) / (vecLength(vec1) * vecLength(vec2)));
 }
@@ -81,4 +86,33 @@ function intVecAngle(vec1, vec2){
     return Math.PI - ang;
 
   return ang;
+}
+
+//see if vec1 positioned at pos1 intersects with vec2 positioned at pos2.
+//returns the point of intersection stored in a vector or null.
+function intersection(pos1, vec1, pos2, vec2){
+  //This function is based on this math:
+  //https://stackoverflow.com/questions/563198/how-do-you-detect-where-two-line-segments-intersect
+  // pos1 == p
+  // vec1 == r
+  // pos2 == q
+  // vec2 == s
+
+  let denom = crossProduct(vec1, vec2); //(r × s)
+  let num1 = crossProduct(subVectors(pos2, pos1) , vec2); //(q − p) × s
+  let num2 = crossProduct(subVectors(pos2, pos1) , vec1); //(q − p) × r
+
+  if(denom == 0) //don't really care if they're parallel for my purposes.
+    return null;
+
+  let t = num1 / denom;
+  let u = num2 / denom;
+
+  if(t > 0 && t < 1 && u > 0 && u < 1) {
+    let offset = new Vector(vec1.x, vec1.y);
+    multVector(offset, t);
+    return addVectors(pos1, offset);
+  }
+
+  return null;
 }
