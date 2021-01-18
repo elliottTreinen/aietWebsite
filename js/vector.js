@@ -84,8 +84,13 @@ function vecAngleDiff(vec1, vec2){
 function intVecAngle(vec1, vec2){
   let ang = vecAngle(vec1, vec2);
 
-  if(ang > Math.PI / 2)
-    return Math.PI - ang;
+  if(ang > 0){
+    if(ang > Math.PI / 2)
+      return Math.PI - ang;
+  }else{
+    if(Math.abs(ang) > Math.PI / 2)
+      return (-1 * Math.PI) - ang;
+  }
 
   return ang;
 }

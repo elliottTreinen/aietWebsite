@@ -7,6 +7,9 @@ const topBottom = new Vector(simWidth, 0);
 const leftRight = new Vector(0, simHeight);
 const maxBeamLength = Math.sqrt(simHeight * simHeight + simWidth * simWidth);
 const relBeamOrigin = new Vector(2, simHeight / 2);
+const air_n = 1;
+const refractor_n = 1.3;
+let inRefractor = false;
 
 //this'll let us shut stuff down when offscreen
 let onScreen = false;
@@ -75,6 +78,44 @@ function checkBorders(){
   }
 }
 
+function RefractData(_rotateAmount, _dist){
+  this.rotate = _rotateAmount;
+  this.dist = _dist;
+}
+
+function clamp(min, max, val) {
+  return Math.min(Math.max(val, min), max);
+};
+
+function checkRefractors(){
+  let closestRefractor = null;
+  let closestDist = -1;
+
+  for(refractor of refractorSet){
+    let sect = intersection(beamOrigin, beamVector, addVectors(refractor.pos, simOrigin), refractor.vec);
+    if(sect != null){
+      let dist = vecLength(subVectors(sect, beamOrigin));
+      if(closestDist == -1 || dist < closestDist){
+        closestDist = dist;
+        closestRefractor = refractor;
+      }
+    }
+  }
+
+  let rotateAngle = -1;
+
+  if(closestDist != -1){
+    let inAngle = (Math.PI / 2) - intVecAngle(beamVector, closestRefractor);
+    let n1 = (inRefractor ? refractor_n : air_n);
+    let n2 = (inRefractor ? air_n : refractor_n);
+    let outAngle = Math.asin(clamp(-1, 1, (n1 * Math.sin(inAngle)) / n2));
+    console.log(`IN: ${inAngle}  OUT: ${outAngle}`);
+    rotateAngle = outAngle - inAngle;
+  }
+
+  return new RefractData(rotateAngle, closestDist);
+}
+
 function drawRefractors(){
   pen.lineWidth = 3;
   pen.strokeStyle = '#d7d7d7';
@@ -90,13 +131,27 @@ function updateRefraction(){
   beamOrigin = addVectors (relBeamOrigin, simOrigin);
   beamVector = diffVector(beamOrigin.x, beamOrigin.y, mousePos.x, mousePos.y);
   setVecLength(beamVector, maxBeamLength);
+  inRefractor = false;
+}
+
+function refract(){
+  rotateVec(beamVector, .1);
 }
 
 function drawRefraction(){
   pen.lineWidth = 2;
   pen.strokeStyle = '#83bcfc';
-  let inRefractor = false;
 
+  let beamData = checkRefractors();
+  while(beamData.dist != -1){
+    setVecLength(beamVector, beamData.dist + .1);
+    drawVector(beamOrigin, beamVector, pen);
+    beamOrigin = addVectors(beamOrigin, beamVector);
+    setVecLength(beamVector, maxBeamLength);
+    rotateVec(beamVector, beamData.rotate);
+    beamData = checkRefractors();
+    inRefractor = !inRefractor;
+  }
 
   checkBorders();
 
