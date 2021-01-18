@@ -14,6 +14,8 @@ Vector.prototype.toString = function() {
   return `[ ${this.x}, ${this.y} ]`
 };
 
+let nullVector = new Vector(0, 0);
+
 function diffVector(x1, y1, x2, y2){
   return new Vector(x2 - x1, y2 - y1);
 }

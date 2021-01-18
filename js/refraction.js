@@ -19,11 +19,34 @@ function SimVector(_pos, _vec){
   this.vec = _vec;
 };
 
-let borders = new Array(4);
-borders[0] = new SimVector(simOrigin, topBottom);
-borders[1] = new SimVector(addVectors(simOrigin, leftRight), topBottom);
-borders[2] = new SimVector(simOrigin, leftRight);
-borders[3] = new SimVector(addVectors(simOrigin, topBottom), leftRight);
+let borderSet = new Set();
+borderSet.add(new SimVector(nullVector, topBottom));
+borderSet.add(new SimVector(leftRight, topBottom));
+borderSet.add(new SimVector(nullVector, leftRight));
+borderSet.add(new SimVector(topBottom, leftRight));
+
+let refractorRows = Math.floor(simHeight / 120);
+let refractorCols = Math.floor(simWidth / 120);
+
+let rowSpace = simHeight / (refractorRows - 1);
+let colSpace = simWidth / (refractorCols - 1);
+
+refractorRows--;
+refractorCols--;
+
+let refractorSet = new Set();
+for(let i = 0; i < refractorCols; i ++)
+{
+  for(let j = 0; j < refractorRows; j ++)
+  {
+    if(i != 0 || refractorRows % 2 == 0 || j != Math.floor(refractorRows / 2)){
+      let p = new Vector(colSpace / 2 + colSpace * i, rowSpace / 2 + rowSpace * j);
+      refractorSet.add(new SimVector(p, new Vector(8, 8)));
+    }
+  }
+}
+
+
 
 function scrollRefraction(){
   simBorder = simSection.getBoundingClientRect();
@@ -32,34 +55,45 @@ function scrollRefraction(){
     onScreen = true;
 }
 
+//find where the beam intersects with the border of the sim.
+function checkBorders(){
+  for(let bdr of borderSet){
+    sect = intersection(beamOrigin, beamVector, addVectors(simOrigin, bdr.pos), bdr.vec);
+    if(sect != null)
+    {
+      beamVector = diffVector(beamOrigin.x, beamOrigin.y, sect.x, sect.y);
+    }
+  }
+}
+
+function drawRefractors(){
+  pen.lineWidth = 3;
+  pen.strokeStyle = '#d7d7d7';
+
+  for(rfr of refractorSet){
+    drawVector(addVectors(simOrigin, rfr.pos), rfr.vec, pen);
+  }
+}
+
 function updateRefraction(){
   simBorder = simSection.getBoundingClientRect();
   simOrigin.y = simBorder.y;
   beamOrigin = addVectors (relBeamOrigin, simOrigin);
   beamVector = diffVector(beamOrigin.x, beamOrigin.y, mousePos.x, mousePos.y);
   setVecLength(beamVector, maxBeamLength);
-
-  borders[1].pos = addVectors(simOrigin, leftRight);
-  borders[3].pos = addVectors(simOrigin, topBottom);
 }
 
 function drawRefraction(){
-  let refractionFinished = false;
-
   pen.lineWidth = 2;
   pen.strokeStyle = '#83bcfc';
+  let inRefractor = false;
 
 
-  for(bdr of borders){
-    sect = intersection(beamOrigin, beamVector, bdr.pos, bdr.vec);
-    if(sect != null)
-    {
-      beamVector = diffVector(beamOrigin.x, beamOrigin.y, sect.x, sect.y);
-      refractionFinished = true;
-    }
-  }
+  checkBorders();
 
   drawVector(beamOrigin, beamVector, pen);
+
+  drawRefractors();
 }
 
 //called every frame in canvasManager.js
