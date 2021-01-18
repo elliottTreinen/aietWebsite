@@ -25,8 +25,8 @@ borderSet.add(new SimVector(leftRight, topBottom));
 borderSet.add(new SimVector(nullVector, leftRight));
 borderSet.add(new SimVector(topBottom, leftRight));
 
-let refractorRows = Math.floor(simHeight / 120);
-let refractorCols = Math.floor(simWidth / 120);
+let refractorRows = Math.floor(simHeight / 150);
+let refractorCols = Math.floor(simWidth / 250);
 
 let rowSpace = simHeight / (refractorRows - 1);
 let colSpace = simWidth / (refractorCols - 1);
@@ -40,8 +40,17 @@ for(let i = 0; i < refractorCols; i ++)
   for(let j = 0; j < refractorRows; j ++)
   {
     if(i != 0 || refractorRows % 2 == 0 || j != Math.floor(refractorRows / 2)){
-      let p = new Vector(colSpace / 2 + colSpace * i, rowSpace / 2 + rowSpace * j);
-      refractorSet.add(new SimVector(p, new Vector(8, 8)));
+      let center = new Vector(colSpace / 2 + colSpace * i, rowSpace / 2 + rowSpace * j);
+      let ang = Math.random() * Math.PI * 2;
+      let p1 = addVectors(angleMagVector(ang, 70), center);
+      ang += Math.PI / 3 + Math.random() * Math.PI * .4;
+      let p2 = addVectors(angleMagVector(ang, 70), center);
+      ang += Math.PI / 3 + Math.random() * Math.PI * .4;
+      let p3 = addVectors(angleMagVector(ang, 70), center);
+
+      refractorSet.add(new SimVector(p1, subVectors(p2, p1)));
+      refractorSet.add(new SimVector(p2, subVectors(p3, p2)));
+      refractorSet.add(new SimVector(p3, subVectors(p1, p3)));
     }
   }
 }
