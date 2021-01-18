@@ -1,5 +1,6 @@
-const simBorder = document.getElementById("refractionSim").getBoundingClientRect();
-const simOrigin = new Vector(simBorder.x, simBorder.y - scroll);
+const simSection = document.getElementById("refractionSim");
+let simBorder = simSection.getBoundingClientRect();
+const simOrigin = new Vector(simBorder.x, simBorder.y);
 const simHeight = simBorder.height;
 const simWidth = simBorder.width;
 const maxBeamLength = Math.sqrt(simHeight * simHeight + simWidth * simWidth);
@@ -11,13 +12,15 @@ let onScreen = false;
 let mouseVector = new Vector(1, 0);
 
 function scrollRefraction(){
+  simBorder = simSection.getBoundingClientRect();
   onScreen = false;
-  if(scroll > simBorder.top - h && scroll < simBorder.bottom)
+  if(simBorder.top < h && simBorder.bottom > 0)
     onScreen = true;
 }
 
 function updateRefraction(){
-  simOrigin.y = simBorder.y - scroll;
+  simBorder = simSection.getBoundingClientRect();
+  simOrigin.y = simBorder.y;
   beamOrigin = addVectors (relBeamOrigin, simOrigin);
   mouseVector = diffVector(beamOrigin.x, beamOrigin.y, mousePos.x, mousePos.y);
   //setVecLength(mouseVector, 2000);
