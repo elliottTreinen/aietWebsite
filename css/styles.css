@@ -16,6 +16,8 @@
   padding: 0;
 }
 
+
+
 /* =================================================== default body and headers */
 body {
   text-align: center;
@@ -24,6 +26,18 @@ body {
   color: var(--mainColor);
   background: var(--bgColor);
   transition: all 2s ease;
+}
+
+body::-webkit-scrollbar {
+  width: .8em;
+}
+
+body::-webkit-scrollbar-thumb {
+  background-color: var(--mainColor);
+  border-color: var(--bgColor);
+  border-style: solid;
+  border-radius: .5rem;
+  border-width: .3rem;
 }
 
 h1 {
@@ -83,6 +97,7 @@ a:focus {
 /* =================================================== nav menu stuff */
 header {
   position: fixed;
+  width: fit-content;
   left: 0;
   right: 0;
   margin: auto;
@@ -94,15 +109,18 @@ nav li {
   display: inline-block;
   font-size: 1.5rem;
   vertical-align: top;
-  margin: 2.3rem;
+  margin: 1.5rem;
   margin-top: 1rem;
-  margin-bottom: .5rem;
+  margin-bottom: 1rem;
   transition: all 0.1s linear;
 }
 
 nav ul {
   position: relative;
   background: var(--bgColor);
+  transition: background 3s ease;
+  border-bottom-left-radius: 1rem;
+  border-bottom-right-radius: 1rem;
 }
 
 nav li:hover,

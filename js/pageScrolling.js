@@ -20,12 +20,12 @@ function updateContent() {
     bio.style.transform = "translateY(-20vh)";
     elliott.style.transform = "translateY(25vh)";
     welcome.style.transform = "translateY(-50vh)";
-    menuBar.style.boxShadow = "0 0 10px #000";
+    menuBar.style.background = "#212121";
   } else {
     bio.style.transform = "none";
     elliott.style.transform = "none";
     welcome.style.transform = "none";
-    menuBar.style.boxShadow = "none";
+    menuBar.style.background = "#2c2a2c";
   }
 
   if(scroll > integerRect.top - window.innerHeight * (2/3))
