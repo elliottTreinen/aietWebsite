@@ -28,6 +28,7 @@ function Ember(startX, startY, size) {
   this.pos = new Vector(startX, startY);
   this.lastPos = new Vector(startX, startY);
   this.spd = angleMagVector((Math.random() * 2 * Math.PI) - Math.PI, 1);
+  this.parallaxTarget = 0;
 
   //vars for the wander algorithm
   this.wanderPointer = angleMagVector((Math.random() * 2 * Math.PI) - Math.PI, 1);
@@ -38,7 +39,8 @@ function Ember(startX, startY, size) {
 
 //=================================================each ember will draw themselves
 Ember.prototype.draw = function() {
-  if(this.lastPos.x != this.pos.x || this.lastPos.y != this.pos.y){
+  if(vecLength(diffVector(this.pos.x, this.pos.y, this.lastPos.x, this.lastPos.y)) > this.sz){
+    //pen.strokeStyle = "red";
     pen.lineWidth = this.sz;
     pen.beginPath();
     pen.moveTo(this.lastPos.x, this.lastPos.y);
@@ -46,9 +48,10 @@ Ember.prototype.draw = function() {
     pen.stroke();
   }else{
     pen.lineWidth = this.sz;
+    //pen.strokeStyle = "lime";
     pen.beginPath();
-    pen.moveTo(this.lastPos.x, this.lastPos.y);
-    pen.lineTo(this.pos.x, this.pos.y + this.sz);
+    pen.moveTo(this.pos.x, this.pos.y - this.sz * .5);
+    pen.lineTo(this.pos.x, this.pos.y + this.sz * .5);
     pen.stroke();
   }
 }
@@ -58,21 +61,28 @@ Ember.prototype.update = function() {
   this.lastPos.x = this.pos.x;
   this.lastPos.y = this.pos.y;
 
-  //update random wander vector
-  rotateVec(this.wanderPointer, Math.random() * .5 - .25);
-
-  //this is a loose application of the wander algorithm
-  this.spd = addVectors(this.wanderPointer, angleMagVector(vecAngle(this.spd), this.wanderOffset));
-  let draftSpeed = addVectors(this.spd, updraft);
-
-  //if ember is within 100px of mouse, pull it to 45px away from mouse.
   let mouseVec = diffVector(mousePos.x, mousePos.y, this.pos.x, this.pos.y)
   let mouseDist = vecLength(mouseVec);
-  setVecLength(mouseVec, (mouseDist < 100 ? (45 - mouseDist) / 4 : 0));
 
-  //combine the embers speed with mouse influence
-  if(emberBehavior)
+  if(emberBehavior){
+    //update random wander vector
+    rotateVec(this.wanderPointer, Math.random() * .5 - .25);
+
+    //this is a loose application of the wander algorithm
+    this.spd = addVectors(this.wanderPointer, angleMagVector(vecAngle(this.spd), this.wanderOffset));
+    let draftSpeed = addVectors(this.spd, updraft);
+
+    //if ember is within 100px of mouse, pull it to 45px away from mouse.
+    setVecLength(mouseVec, (mouseDist < 100 ? (45 - mouseDist) / 4 : 0));
+
+    //combine the embers speed with mouse influence
     this.pos = addVectors(this.pos, addVectors(draftSpeed, mouseVec));
+  }else{
+    //parallax behavior
+    let parallaxAmt = this.parallaxTarget * .1
+    this.pos.y -= parallaxAmt;
+    this.parallaxTarget -= parallaxAmt;
+  }
 
   //allow embers to loop around edges of screen.
   if (this.pos.y < 0) {
@@ -99,7 +109,7 @@ Ember.prototype.update = function() {
 }
 
 Ember.prototype.parallax = function(amount){
-  this.pos.y -= amount * this.sz / 2;
+  this.parallaxTarget += amount * this.sz / 2;
 }
 
 //=================================================create initial embers
