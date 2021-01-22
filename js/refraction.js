@@ -208,7 +208,7 @@ function drawRefraction(){
   pen.strokeStyle = '#d7d7d7';
   pen.strokeRect(simOrigin.x, simOrigin.y, simWidth, simHeight);
 
-  pen.lineWidth = 2;
+  pen.lineWidth = 1.5 + .3 * Math.sin(waver);
   pen.strokeStyle = beamColor;
   let refractions = 0;
 
