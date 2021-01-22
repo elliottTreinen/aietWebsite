@@ -28,10 +28,10 @@ function angleMagVector(angle, mag){
 
 //draws vec positioned with its origin at posVec using ctx.
 function drawVector(posVec, vec, ctx){
-  pen.beginPath();
-  pen.moveTo(posVec.x, posVec.y);
-  pen.lineTo(posVec.x + vec.x, posVec.y + vec.y);
-  pen.stroke();
+  ctx.beginPath();
+  ctx.moveTo(Math.floor(posVec.x), Math.floor(posVec.y));
+  ctx.lineTo(Math.floor(posVec.x + vec.x), Math.floor(posVec.y + vec.y));
+  ctx.stroke();
 }
 
 //returns the length of vec

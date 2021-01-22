@@ -1,6 +1,6 @@
 //// TODO: Update canves size on debounced window resize.
 
-let embersUpdating = true;
+let emberBehavior = true;
 let lastScroll = scroll;
 
 //drawing with this gradient gives the embers a nice
@@ -38,11 +38,19 @@ function Ember(startX, startY, size) {
 
 //=================================================each ember will draw themselves
 Ember.prototype.draw = function() {
-  pen.lineWidth = this.sz;
-  pen.beginPath();
-  pen.moveTo(this.lastPos.x, this.lastPos.y);
-  pen.lineTo(this.pos.x, this.pos.y);
-  pen.stroke();
+  if(this.lastPos.x != this.pos.x || this.lastPos.y != this.pos.y){
+    pen.lineWidth = this.sz;
+    pen.beginPath();
+    pen.moveTo(this.lastPos.x, this.lastPos.y);
+    pen.lineTo(this.pos.x, this.pos.y);
+    pen.stroke();
+  }else{
+    pen.lineWidth = this.sz;
+    pen.beginPath();
+    pen.moveTo(this.lastPos.x, this.lastPos.y);
+    pen.lineTo(this.pos.x, this.pos.y + this.sz);
+    pen.stroke();
+  }
 }
 
 //=================================================each ember will update its own position
@@ -63,42 +71,52 @@ Ember.prototype.update = function() {
   setVecLength(mouseVec, (mouseDist < 100 ? (45 - mouseDist) / 4 : 0));
 
   //combine the embers speed with mouse influence
-  if(embersUpdating)
+  if(emberBehavior)
     this.pos = addVectors(this.pos, addVectors(draftSpeed, mouseVec));
 
   //allow embers to loop around edges of screen.
   if (this.pos.y < 0) {
-    this.pos.y = h - 1;
-    this.lastPos.y = this.pos.y;
+    this.pos.y += h;
+    this.lastPos.y += h;
   }
 
   if (this.pos.y > h) {
-    this.pos.y = 1;
-    this.lastPos.y = this.pos.y;
+    this.pos.y -= h;
+    this.lastPos.y -= h;
   }
 
   if (this.pos.x < 0) {
-    this.pos.x = w - 1;
-    this.lastPos.x = this.pos.x;
+    this.pos.x += w;
+    this.lastPos.x += w;
   }
 
   if (this.pos.x > w) {
-    this.pos.x = 1;
-    this.lastPos.x = this.pos.x;
+    this.pos.x -= w;
+    this.lastPos.x -= w;
   }
 
   return mouseDist < 140;
 }
 
+Ember.prototype.parallax = function(amount){
+  this.pos.y -= amount * this.sz / 2;
+}
+
 //=================================================create initial embers
 for (let i = 0; i < numEmbers; i++) {
-  emberSet.add(new Ember(Math.random() * w, Math.random() * h, 1 + Math.floor(Math.random() * 3)));
+  emberSet.add(new Ember(Math.random() * w, Math.random() * h, 1 + Math.random() * 2));
 }
 
 //called when scroll updates in pageScrolling.js
 function scrollEmbers(){
-  updraft.y -= scroll - lastScroll;
+  let scrollDiff = scroll - lastScroll
+  updraft.y -= scrollDiff;
   lastScroll = scroll;
+  if(!emberBehavior){
+    for (let ember of emberSet) {
+      ember.parallax(scrollDiff);
+    }
+  }
 }
 
 //update ember positions
