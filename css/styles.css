@@ -254,9 +254,9 @@ it to work.*/
 
 /* =================================================== refraction simulation */
 #refractionSim{
-  border-color: var(--mainColor);
+  /*border-color: var(--mainColor);
   border-width: 2px;
-  border-style: dashed;
+  border-style: dashed;*/
   padding-top: 80vh;
   margin-left: 2rem;
   margin-right: 2rem;

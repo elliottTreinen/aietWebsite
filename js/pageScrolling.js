@@ -15,6 +15,7 @@ welcome.innerHTML = "<h1>Welcome to my page.</h1>";
 //the (debounced) scroll height is updated.
 
 function updateContent() {
+  //console.log(`SCROLL: ${scroll}  TOP: ${integerRect.top}  OFFSET: ${window.innerHeight * (2/3)}`);
   if (scroll > 0) {
     bio.style.transform = "translateY(-20vh)";
     elliott.style.transform = "translateY(25vh)";

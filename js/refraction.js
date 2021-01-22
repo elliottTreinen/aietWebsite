@@ -183,7 +183,13 @@ function refract(beamLength, refractor){
 }
 
 function drawRefraction(){
+  pen.lineWidth = 3;
+  pen.strokeStyle = '#d7d7d7';
+  //pen.setLineDash([8, 6]);
+  pen.strokeRect(simOrigin.x, simOrigin.y, simWidth, simHeight);
+
   pen.lineWidth = 2;
+  //pen.setLineDash([]);
   pen.strokeStyle = '#83bcfc';
   let refractions = 0;
 

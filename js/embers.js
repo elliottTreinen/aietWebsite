@@ -28,7 +28,7 @@ function Ember(startX, startY, size) {
   this.pos = new Vector(startX, startY);
   this.lastPos = new Vector(startX, startY);
   this.spd = angleMagVector((Math.random() * 2 * Math.PI) - Math.PI, 1);
-  this.parallaxTarget = 0;
+  this.yTarget = 0;
 
   //vars for the wander algorithm
   this.wanderPointer = angleMagVector((Math.random() * 2 * Math.PI) - Math.PI, 1);
@@ -40,7 +40,6 @@ function Ember(startX, startY, size) {
 //=================================================each ember will draw themselves
 Ember.prototype.draw = function() {
   if(vecLength(diffVector(this.pos.x, this.pos.y, this.lastPos.x, this.lastPos.y)) > this.sz){
-    //pen.strokeStyle = "red";
     pen.lineWidth = this.sz;
     pen.beginPath();
     pen.moveTo(this.lastPos.x, this.lastPos.y);
@@ -48,7 +47,6 @@ Ember.prototype.draw = function() {
     pen.stroke();
   }else{
     pen.lineWidth = this.sz;
-    //pen.strokeStyle = "lime";
     pen.beginPath();
     pen.moveTo(this.pos.x, this.pos.y - this.sz * .5);
     pen.lineTo(this.pos.x, this.pos.y + this.sz * .5);
@@ -77,12 +75,12 @@ Ember.prototype.update = function() {
 
     //combine the embers speed with mouse influence
     this.pos = addVectors(this.pos, addVectors(draftSpeed, mouseVec));
-  }else{
-    //parallax behavior
-    let parallaxAmt = this.parallaxTarget * .1
-    this.pos.y -= parallaxAmt;
-    this.parallaxTarget -= parallaxAmt;
   }
+  //parallax behavior
+  let yMove = this.yTarget * .1
+  this.pos.y -= yMove;
+  this.yTarget -= yMove;
+
 
   //allow embers to loop around edges of screen.
   if (this.pos.y < 0) {
@@ -109,7 +107,7 @@ Ember.prototype.update = function() {
 }
 
 Ember.prototype.parallax = function(amount){
-  this.parallaxTarget += amount * this.sz / 2;
+  this.yTarget += amount * this.sz / 2;
 }
 
 //=================================================create initial embers
@@ -119,10 +117,13 @@ for (let i = 0; i < numEmbers; i++) {
 
 //called when scroll updates in pageScrolling.js
 function scrollEmbers(){
-  let scrollDiff = scroll - lastScroll
-  updraft.y -= scrollDiff;
+  let scrollDiff = scroll - lastScroll;
   lastScroll = scroll;
-  if(!emberBehavior){
+  if(emberBehavior){
+    for (let ember of emberSet) {
+      ember.yTarget += scrollDiff;
+    }
+  }else{
     for (let ember of emberSet) {
       ember.parallax(scrollDiff);
     }
