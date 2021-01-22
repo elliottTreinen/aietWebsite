@@ -22,6 +22,7 @@ let lastMouseY = simHeight / 2;
 let lastMouseX = 100;
 let beamColor = '#83bcfc';
 let waver = 0;
+let firstSegment = true;
 
 //stores two vectors needed to check collision
 function SimVector(_pos, _vec){
@@ -175,11 +176,11 @@ function refract(beamLength, refractor){
   let theta1 = vecAngleDiff(beamVector, normalVec);
   let theta2 = Math.asin((n1 * Math.sin(theta1)) / n2);
 
-  let newOffset = .1; //makes sure we don't hit the same refractor again
+  let offShoot = .1; //makes sure we don't hit the same refractor again
 
   if(isNaN(theta2)){
     theta2 = Math.PI - theta1;
-    newOffset *= -1;
+    offShoot *= -1;
   }else{
     inRefractor = !inRefractor;
   }
@@ -195,21 +196,30 @@ function refract(beamLength, refractor){
       theta2 *= -1;
   }
 
+  let startOffset = 0;
+  if(firstSegment)
+    startOffset = 30;
+
   pen.lineWidth = 1.5 + .3 * Math.sin(waver);
   pen.strokeStyle = beamColor;
-  setVecLength(beamVector, beamLength + newOffset);
-  drawVector(beamOrigin, beamVector, pen);
+  setVecLength(beamVector, beamLength + offShoot);
+  drawVector(addVectors(beamOrigin, angleMagVector(vecAngle(beamVector), startOffset)), angleMagVector(vecAngle(beamVector), beamLength + offShoot - startOffset), pen);
   beamOrigin = addVectors(beamOrigin, beamVector);
   beamVector = angleMagVector(vecAngle(normalVec) + theta2, maxBeamLength);
+  firstSegment = false;
 }
 
 function drawRefraction(){
   pen.lineWidth = 3;
   pen.strokeStyle = '#d7d7d7';
   pen.strokeRect(simOrigin.x, simOrigin.y, simWidth, simHeight);
+  pen.beginPath();
+  pen.arc(beamOrigin.x - 2, beamOrigin.y, 30, -.5 * Math.PI, .5 * Math.PI);
+  pen.stroke();
 
   pen.lineWidth = 1.5 + .3 * Math.sin(waver);
   pen.strokeStyle = beamColor;
+  firstSegment = true;
   let refractions = 0;
 
   while(checkRefractors() && refractions < 100){
@@ -218,7 +228,11 @@ function drawRefraction(){
 
   checkBorders();
 
-  drawVector(beamOrigin, beamVector, pen);
+  let startOffset = 0;
+  if(firstSegment)
+    startOffset = 30;
+  //these drawVector calls are so convoluted to accomodate the arc drawn at the start of the beam.
+  drawVector(addVectors(beamOrigin, angleMagVector(vecAngle(beamVector), startOffset)), angleMagVector(vecAngle(beamVector), vecLength(beamVector) - startOffset), pen);
 
   drawRefractors();
 }

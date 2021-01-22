@@ -20,7 +20,7 @@ function updateContent() {
     bio.style.transform = "translateY(-20vh)";
     elliott.style.transform = "translateY(25vh)";
     welcome.style.transform = "translateY(-50vh)";
-    menuBar.style.background = "#212121";
+    menuBar.style.background = "#262626";
   } else {
     bio.style.transform = "none";
     elliott.style.transform = "none";

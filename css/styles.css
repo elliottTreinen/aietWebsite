@@ -118,7 +118,7 @@ nav li {
 nav ul {
   position: relative;
   background: var(--bgColor);
-  transition: background 3s ease;
+  transition: background 1s ease;
   border-bottom-left-radius: 1rem;
   border-bottom-right-radius: 1rem;
 }
