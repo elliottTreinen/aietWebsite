@@ -76,7 +76,6 @@ Ember.prototype.update = function() {
     //combine the embers speed with mouse influence
     this.pos = addVectors(this.pos, addVectors(draftSpeed, mouseVec));
   }
-  //parallax behavior
   let yMove = this.yTarget * .1
   this.pos.y -= yMove;
   this.yTarget -= yMove;

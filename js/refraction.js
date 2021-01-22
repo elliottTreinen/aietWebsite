@@ -18,6 +18,10 @@ const refractor_n = 1.5;//this makes the refractors about equivalent to glass
 let inRefractor = false;
 let onScreen = false;//this'll let us shut stuff down when offscreen
 let beamVector = new Vector(1, 0);
+let lastMouseY = simHeight / 2;
+let lastMouseX = 100;
+let beamColor = '#83bcfc';
+let waver = 0;
 
 //stores two vectors needed to check collision
 function SimVector(_pos, _vec){
@@ -25,12 +29,14 @@ function SimVector(_pos, _vec){
   this.vec = _vec;
 };
 
+//we can check these vectors to see if the beam is at the edge of the sim
 let borderSet = new Set();
 borderSet.add(new SimVector(nullVector, topBottom));
 borderSet.add(new SimVector(leftRight, topBottom));
 borderSet.add(new SimVector(nullVector, leftRight));
 borderSet.add(new SimVector(topBottom, leftRight));
 
+//randomly generating refractor triangles based on sim size
 let refractorRows = Math.floor(simHeight / 150);
 let refractorCols = Math.floor(simWidth / 250);
 
@@ -61,6 +67,8 @@ for(let i = 0; i < refractorCols; i ++)
   }
 }
 
+//caching the refractor drawings on a second canvas
+//(this was supposed to improve performance, I don't think it did.)
 let refractorCanvas = document.createElement('canvas');
 refractorCanvas.width = drawingCanvas.width;
 refractorCanvas.height = drawingCanvas.height;
@@ -75,7 +83,9 @@ for(rfr of refractorSet){
 }
 
 
-
+//updates the sim's position on the canvas to appear as though it's
+//scrolling with the page elements. It kinda lags behind still which
+//bugs me, but I can't figure out how to make it tighter.
 function scrollRefraction(){
   simBorder = simSection.getBoundingClientRect();
   simOrigin.y = simBorder.y;
@@ -84,7 +94,7 @@ function scrollRefraction(){
     onScreen = true;
 }
 
-//find where the beam intersects with the border of the sim.
+//find where the beam intersects with the border of the sim and adjusts the beam accordingly.
 function checkBorders(){
   for(let bdr of borderSet){
     sect = intersection(beamOrigin, beamVector, addVectors(simOrigin, bdr.pos), bdr.vec);
@@ -95,14 +105,12 @@ function checkBorders(){
   }
 }
 
-function clamp(min, max, val) {
-  return Math.min(Math.max(val, min), max);
-};
-
+//checks to see if the beam collides with a refractor. if it does, refract.
 function checkRefractors(){
   let closestRefractor = null;
   let closestDist = -1;
 
+  //find the nearest collider the beam collides with
   for(refractor of refractorSet){
     let sect = intersection(beamOrigin, beamVector, addVectors(refractor.pos, simOrigin), refractor.vec);
     if(sect != null){
@@ -114,20 +122,24 @@ function checkRefractors(){
     }
   }
 
+  //if it hits a refractor, refract accordingly.
   if(closestDist != -1){
     refract(closestDist, closestRefractor);
-
     return true;
   }
 
   return false;
 }
 
+//now this just draws the pre-drawn canvas onto the main canvas
 function drawRefractors(){
   pen.drawImage(refractorCanvas, simOrigin.x, simOrigin.y);
 }
 
+//this basically just resets all the variables between each frame
+//of simulation.
 function updateRefraction(){
+  waver = (waver + 1) % (2 * Math.PI);
   beamOrigin = addVectors (relBeamOrigin, simOrigin);
   //I accidentally removed the above line and the result is really
   //cool, the origin of the beam doesn't get reset between frames
@@ -138,7 +150,15 @@ function updateRefraction(){
   //hitting the sim boundary. You can kinda get the beam to "hop"
   //from refractor to refractor. I bet there's a game that could
   //be made from that.
-  beamVector = diffVector(beamOrigin.x, beamOrigin.y, mousePos.x, mousePos.y);
+
+  //make sure mouse is inside sim before tracking it
+  if(mousePos.x > simOrigin.x && mousePos.x < simOrigin.x + simWidth && mousePos.y > simOrigin.y && mousePos.y < simOrigin.y + simHeight){
+    lastMouseX = mousePos.x - simOrigin.x;
+    lastMouseY = mousePos.y - simOrigin.y;
+    //subtracting then re-adding simOrigin since it will be updated
+    //every frame when scrolling
+  }
+  beamVector = diffVector(beamOrigin.x, beamOrigin.y, lastMouseX + simOrigin.x, lastMouseY + simOrigin.y);
   setVecLength(beamVector, maxBeamLength);
   inRefractor = false;
 }
@@ -155,7 +175,7 @@ function refract(beamLength, refractor){
   let theta1 = vecAngleDiff(beamVector, normalVec);
   let theta2 = Math.asin((n1 * Math.sin(theta1)) / n2);
 
-  let newOffset = .1; //makes sure we don't hit the same refrator again
+  let newOffset = .1; //makes sure we don't hit the same refractor again
 
   if(isNaN(theta2)){
     theta2 = Math.PI - theta1;
@@ -175,7 +195,8 @@ function refract(beamLength, refractor){
       theta2 *= -1;
   }
 
-  pen.strokeStyle = '#83bcfc';
+  pen.lineWidth = 1.5 + .3 * Math.sin(waver);
+  pen.strokeStyle = beamColor;
   setVecLength(beamVector, beamLength + newOffset);
   drawVector(beamOrigin, beamVector, pen);
   beamOrigin = addVectors(beamOrigin, beamVector);
@@ -185,12 +206,10 @@ function refract(beamLength, refractor){
 function drawRefraction(){
   pen.lineWidth = 3;
   pen.strokeStyle = '#d7d7d7';
-  //pen.setLineDash([8, 6]);
   pen.strokeRect(simOrigin.x, simOrigin.y, simWidth, simHeight);
 
   pen.lineWidth = 2;
-  //pen.setLineDash([]);
-  pen.strokeStyle = '#83bcfc';
+  pen.strokeStyle = beamColor;
   let refractions = 0;
 
   while(checkRefractors() && refractions < 100){

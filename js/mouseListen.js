@@ -20,6 +20,6 @@ let updateMouse = (event) => {
 
 //I'm not entirely sure this is necessary,
 //but better safe than sorry.
-updateMouse = throttle(updateMouse);
+//updateMouse = throttle(updateMouse);
 
 window.addEventListener('mousemove', updateMouse);
