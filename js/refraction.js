@@ -8,7 +8,7 @@ const leftRight = new Vector(0, simHeight);
 const maxBeamLength = Math.sqrt(simHeight * simHeight + simWidth * simWidth);
 const relBeamOrigin = new Vector(2, simHeight / 2);
 const air_n = 1;
-const refractor_n = 1.3;
+const refractor_n = 1.5;
 let inRefractor = false;
 
 //this'll let us shut stuff down when offscreen
@@ -78,11 +78,6 @@ function checkBorders(){
   }
 }
 
-function RefractData(_rotateAmount, _dist){
-  this.rotate = _rotateAmount;
-  this.dist = _dist;
-}
-
 function clamp(min, max, val) {
   return Math.min(Math.max(val, min), max);
 };
@@ -90,6 +85,7 @@ function clamp(min, max, val) {
 function checkRefractors(){
   let closestRefractor = null;
   let closestDist = -1;
+  let closestSect = null;
 
   for(refractor of refractorSet){
     let sect = intersection(beamOrigin, beamVector, addVectors(refractor.pos, simOrigin), refractor.vec);
@@ -98,6 +94,7 @@ function checkRefractors(){
       if(closestDist == -1 || dist < closestDist){
         closestDist = dist;
         closestRefractor = refractor;
+        closestSect = sect;
       }
     }
   }
@@ -105,15 +102,54 @@ function checkRefractors(){
   let rotateAngle = -1;
 
   if(closestDist != -1){
-    let inAngle = (Math.PI / 2) - intVecAngle(beamVector, closestRefractor);
     let n1 = (inRefractor ? refractor_n : air_n);
     let n2 = (inRefractor ? air_n : refractor_n);
-    let outAngle = Math.asin(clamp(-1, 1, (n1 * Math.sin(inAngle)) / n2));
-    console.log(`IN: ${inAngle}  OUT: ${outAngle}`);
-    rotateAngle = outAngle - inAngle;
+    console.log(`n1: ${n1}  n2: ${n2}`);
+
+    let normalVec = angleMagVector(vecAngle(closestRefractor.vec) + Math.PI / 2, 10);
+    if(vecAngleDiff(beamVector, normalVec) > Math.PI / 2) {
+      multVector(normalVec, -1);
+    }
+
+    let theta1 = vecAngleDiff(beamVector, normalVec);
+    let theta2 = Math.asin((n1 * Math.sin(theta1)) / n2);
+
+    let newOffset = .1; //makes sure we don't hit the same refrator again
+
+    pen.strokeStyle = 'red';
+    if(inRefractor)
+      pen.strokeStyle = 'lime';
+    drawVector(closestSect, normalVec);
+
+    if(isNaN(theta2)){
+			theta2 = Math.PI - theta1;
+      newOffset *= -1;
+		}else{
+      inRefractor = !inRefractor;
+    }
+
+    let normalAngle = vecAngle(normalVec);
+    let beamAngle = vecAngle(beamVector);
+
+    if(normalAngle < 0){
+      if(!(beamAngle > normalAngle && beamAngle < normalAngle + Math.PI))
+        theta2 *= -1;
+    }else{
+      if(beamAngle < normalAngle && beamAngle > normalAngle - Math.PI)
+        theta2 *= -1;
+    }
+
+    pen.strokeStyle = '#83bcfc';
+
+    setVecLength(beamVector, closestDist + newOffset);
+    drawVector(beamOrigin, beamVector, pen);
+    beamOrigin = addVectors(beamOrigin, beamVector);
+    beamVector = angleMagVector(vecAngle(normalVec) + theta2, maxBeamLength);
+
+    return true;
   }
 
-  return new RefractData(rotateAngle, closestDist);
+  return false;
 }
 
 function drawRefractors(){
@@ -142,15 +178,8 @@ function drawRefraction(){
   pen.lineWidth = 2;
   pen.strokeStyle = '#83bcfc';
 
-  let beamData = checkRefractors();
-  while(beamData.dist != -1){
-    setVecLength(beamVector, beamData.dist + .1);
-    drawVector(beamOrigin, beamVector, pen);
-    beamOrigin = addVectors(beamOrigin, beamVector);
-    setVecLength(beamVector, maxBeamLength);
-    rotateVec(beamVector, beamData.rotate);
-    beamData = checkRefractors();
-    inRefractor = !inRefractor;
+  while(checkRefractors()){
+
   }
 
   checkBorders();

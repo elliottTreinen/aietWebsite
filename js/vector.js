@@ -76,6 +76,13 @@ function crossProduct(vec1, vec2){
   return vec1.x * vec2.y - vec1.y * vec2.x;
 }
 
+//This is just for debugging, my brain can't
+//handle radians without pi.
+function radToDeg(rads)
+{
+  return rads * (180/Math.PI);
+}
+
 function vecAngleDiff(vec1, vec2){
   return Math.acos(dotProduct(vec1, vec2) / (vecLength(vec1) * vecLength(vec2)));
 }
