@@ -1,9 +1,8 @@
 //vector class for sims
-//I love vectors they're so neat
 
 //I love being able to write vector classes
 //because they're so simple but you can do
-//some REALLY crazy powerful stuff with them.
+//some REALLY crazy cool stuff with them.
 //All from code YOU wrote. Dang.
 function Vector(_x, _y) {
   this.x = _x;
@@ -14,13 +13,15 @@ Vector.prototype.toString = function() {
   return `[ ${this.x}, ${this.y} ]`
 };
 
-let nullVector = new Vector(0, 0);
+const nullVector = new Vector(0, 0);
 
+//returns a vector that points from point 1 to point 2
 function diffVector(x1, y1, x2, y2){
   return new Vector(x2 - x1, y2 - y1);
 }
 
 //IT'S IN RADIANS. DON'T FORGET.
+//creates a vector with a direction of angle and a magnitude of mag
 function angleMagVector(angle, mag){
   return new Vector(Math.cos(angle) * mag, Math.sin(angle) * mag);
 }
@@ -33,33 +34,40 @@ function drawVector(posVec, vec, ctx){
   pen.stroke();
 }
 
+//returns the length of vec
 function vecLength(vec){
   return Math.sqrt(vec.x * vec.x + vec.y * vec.y);
 }
 
+//returns the angle of vec (-π at [-1, 0] up to π going clockwise)
 function vecAngle(vec){
   return Math.atan2(vec.y, vec.x);
 }
 
+//returns a vector equal to vec1 + vec2
 function addVectors(vec1, vec2) {
   return new Vector(vec1.x + vec2.x, vec1.y + vec2.y);
 }
 
+//returns a vector equal to vec1 - vec2
 function subVectors(vec1, vec2) {
   return new Vector(vec1.x - vec2.x, vec1.y - vec2.y);
 }
 
+//modifies vec so its magnitude is mult times the original size
 function multVector(vec, mult) {
   vec.x *= mult;
   vec.y *= mult;
 }
 
+//modifies vec so its magnitude is length
 function setVecLength(vec, length){
   mag = vecLength(vec);
   vec.x = (vec.x / mag) * length;
   vec.y = (vec.y / mag) * length;
 }
 
+//modifies vec so its direction increases by angle
 function rotateVec(vec, angle){
   mag = vecLength(vec);
   ang = vecAngle(vec);
@@ -67,39 +75,25 @@ function rotateVec(vec, angle){
   vec.y = Math.sin(ang + angle) * mag;
 }
 
+//returns vec1·vec2
 function dotProduct(vec1, vec2){
   return vec1.x * vec2.x + vec1.y * vec2.y;
 }
 
-//2d, obviously
+//returns vec1×vec2
 function crossProduct(vec1, vec2){
   return vec1.x * vec2.y - vec1.y * vec2.x;
 }
 
 //This is just for debugging, my brain can't
 //handle radians without pi.
-function radToDeg(rads)
-{
+function radToDeg(rads){
   return rads * (180/Math.PI);
 }
 
+//returns the angle between vec1 and vec2
 function vecAngleDiff(vec1, vec2){
   return Math.acos(dotProduct(vec1, vec2) / (vecLength(vec1) * vecLength(vec2)));
-}
-
-//interior angle of two vectors
-function intVecAngle(vec1, vec2){
-  let ang = vecAngle(vec1, vec2);
-
-  if(ang > 0){
-    if(ang > Math.PI / 2)
-      return Math.PI - ang;
-  }else{
-    if(Math.abs(ang) > Math.PI / 2)
-      return (-1 * Math.PI) - ang;
-  }
-
-  return ang;
 }
 
 //see if vec1 positioned at pos1 intersects with vec2 positioned at pos2.

@@ -8,7 +8,7 @@ const leftRight = new Vector(0, simHeight);
 const maxBeamLength = Math.sqrt(simHeight * simHeight + simWidth * simWidth);
 const relBeamOrigin = new Vector(2, simHeight / 2);
 const air_n = 1;
-const refractor_n = 1.5;
+const refractor_n = 1.5;//this makes the refractors about equivalent to glass
 let inRefractor = false;
 
 //this'll let us shut stuff down when offscreen
@@ -99,12 +99,9 @@ function checkRefractors(){
     }
   }
 
-  let rotateAngle = -1;
-
   if(closestDist != -1){
     let n1 = (inRefractor ? refractor_n : air_n);
     let n2 = (inRefractor ? air_n : refractor_n);
-    console.log(`n1: ${n1}  n2: ${n2}`);
 
     let normalVec = angleMagVector(vecAngle(closestRefractor.vec) + Math.PI / 2, 10);
     if(vecAngleDiff(beamVector, normalVec) > Math.PI / 2) {
@@ -115,11 +112,6 @@ function checkRefractors(){
     let theta2 = Math.asin((n1 * Math.sin(theta1)) / n2);
 
     let newOffset = .1; //makes sure we don't hit the same refrator again
-
-    pen.strokeStyle = 'red';
-    if(inRefractor)
-      pen.strokeStyle = 'lime';
-    drawVector(closestSect, normalVec);
 
     if(isNaN(theta2)){
 			theta2 = Math.PI - theta1;
@@ -177,9 +169,10 @@ function refract(){
 function drawRefraction(){
   pen.lineWidth = 2;
   pen.strokeStyle = '#83bcfc';
+  let refractions = 0;
 
-  while(checkRefractors()){
-
+  while(checkRefractors() && refractions < 100){
+    refractions++;
   }
 
   checkBorders();
