@@ -7,11 +7,13 @@ let lastScroll = scroll;
 //"rising off from the fire" feel.
 let gradient = pen.createLinearGradient(0, 0, 0, h);
 gradient.addColorStop(1, '#83bcfc');
+gradient.addColorStop(.6, '#83bcfc');
 gradient.addColorStop(0, '#2c2a2c');
 
 //uh oh, is this an easter egg?
 let gradient2 = pen.createLinearGradient(0, 0, 0, h);
 gradient2.addColorStop(1, '#ffcf86');
+gradient2.addColorStop(.6, '#ffcf86');
 gradient2.addColorStop(0, '#2c2a2c');
 
 let currentGradient = gradient;
@@ -35,6 +37,10 @@ function Ember(startX, startY, size) {
   this.wanderOffset = Math.random() * .5 + 1;
 
   this.sz = size;
+
+  //make it more noticeable on mobile
+  if(!hasMouse)
+    this.sz *= 2;
 }
 
 //=================================================each ember will draw themselves
@@ -110,9 +116,15 @@ Ember.prototype.parallax = function(amount){
 }
 
 //=================================================create initial embers
-for (let i = 0; i < numEmbers; i++) {
-  emberSet.add(new Ember(Math.random() * w, Math.random() * h, 1 + Math.random() * 2));
+function populateEmbers(){
+  emberSet = new Set();
+  numEmbers = w * h * (.000025);
+  for (let i = 0; i < numEmbers; i++) {
+    emberSet.add(new Ember(Math.random() * w, Math.random() * h, 1 + Math.random() * 2));
+  }
 }
+
+populateEmbers();
 
 //called when scroll updates in pageScrolling.js
 function scrollEmbers(){
@@ -144,7 +156,11 @@ function updateEmbers() {
 
 //draw the embers.
 function renderEmbers() {
-  pen.strokeStyle = currentGradient;
+  if(emberBehavior){
+    pen.strokeStyle = currentGradient;
+  }else{
+    pen.strokeStyle = '#83bcfc';
+  }
   for (let ember of emberSet) {
     ember.draw();
   }

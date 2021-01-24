@@ -7,13 +7,17 @@ const drawingCanvas = document.getElementById("drawingCanvas");
 
 //These end up being used as shorthand
 //throught both sim scripts.
-let w = window.innerWidth;
-let h = window.innerHeight;
 
 drawingCanvas.width = w;
 drawingCanvas.height = h;
 
 let pen = drawingCanvas.getContext('2d');
+
+function canvasResize() {
+  drawingCanvas.width = w;
+  drawingCanvas.height = h;
+  pen = drawingCanvas.getContext('2d');
+}
 
 function canvasUpdate() {
   pen.clearRect(0, 0, w, h);
