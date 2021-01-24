@@ -13,7 +13,7 @@ const relBeamOrigin = new Vector(2, simHeight / 2);//where the beam starts relat
 
 //these are the refractive indices being used
 const air_n = 1;
-const refractor_n = 1.5;//this makes the refractors about equivalent to glass
+const refractor_n = 1.333;//this makes the refractors about equivalent to water
 
 let inRefractor = false;
 let onScreen = false;//this'll let us shut stuff down when offscreen
