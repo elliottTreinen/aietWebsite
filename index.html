@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Aiet</title>
+  <title>Elliott Treinen</title>
   <link rel="stylesheet" href="css/styles.css" type="text/css">
 </head>
 
@@ -12,13 +12,18 @@
 
 <body>
   <header>
-    <nav>
+    <nav id="nav">
       <ul id="menuBar">
-        <li><a href="#elliott">ABOUT ME</a></li>
-        <li><a href="#projects">PROJECTS</a></li>
+        <li><a href="#aboutMe">ABOUT ME</a></li>
+        <li><a href="#refraction">PROJECTS</a></li>
         <li><a href="#experience">EXPERIENCE</a></li>
-        <li><a href="">CONTACT</a></li>
+        <li><a href="#contact">CONTACT</a></li>
       </ul>
+      <div id="hamburger">
+        <a href="javascript:void(0);" onclick="toggleMenu()">
+          <img src="img/hamburgerMenu.png" alt="=">
+        </a>
+      </div>
     </nav>
   </header>
 
@@ -27,7 +32,8 @@
   <canvas id="drawingCanvas"></canvas>
 
   <!-- =============================================================================== WELCOME MESSAGE AND BIO -->
-  <section class="topReactive">
+  <section id="topReactive">
+    <a class="anchor" id="aboutMe"></a>
     <div id="welcome">
       <h1>Welcome to my page.</h1>
       <p>(it's better with JavaScript)</p>
@@ -63,7 +69,7 @@
 
   <!-- =============================================================================== CURRENT PROJECT SECTION -->
 
-  <section class="currentProj" id="projects">
+  <section class="currentProj">
     <h1>
       Current Project
     </h1>
@@ -177,6 +183,13 @@
       </div>
     </div>
   </section>
+
+  <section id="contact">
+    <h1>Contact Me</h1>
+    <h4>elliott.treinen@gmail.com</h4>
+    <a href="https://www.linkedin.com/in/elliott-treinen/" target="_blank"><img src="img/linkedInLogo.png" alt="LinkedIn"></a>
+    <a href="https://aiet.itch.io" target="_blank"><img src="img/itchLogo.svg" alt="itch.io"></a>
+  </section>
 </body>
 
 <script src="js/vector.js"></script>
@@ -186,6 +199,7 @@
 <script src="js/canvasManager.js"></script>
 <script src="js/embers.js"></script>
 <script src="js/refraction.js"></script>
+<script src="js/navMenu.js"></script>
 
 </html>
 

@@ -4,7 +4,7 @@ let emberBehavior = true;
 let lastScroll = scroll;
 
 //drawing with this gradient gives the embers a nice
-//"rising away from the fire" feel.
+//"rising off from the fire" feel.
 let gradient = pen.createLinearGradient(0, 0, 0, h);
 gradient.addColorStop(1, '#83bcfc');
 gradient.addColorStop(0, '#2c2a2c');
@@ -18,7 +18,7 @@ let currentGradient = gradient;
 
 //set to store all embers in
 let emberSet = new Set();
-let numEmbers = w * h * (.00005);
+let numEmbers = w * h * (.000025);
 
 //Simulation vectors
 let updraft = new Vector(0, -3);
@@ -74,7 +74,7 @@ Ember.prototype.update = function() {
     setVecLength(mouseVec, (mouseDist < 100 ? (45 - mouseDist) / 4 : 0));
 
     //combine the embers speed with mouse influence
-    this.pos = addVectors(this.pos, addVectors(draftSpeed, mouseVec));
+    this.pos = addVectors(this.pos, addVectors(draftSpeed, (hasMouse ? mouseVec : nullVector)));
   }
   let yMove = this.yTarget * .1
   this.pos.y -= yMove;
@@ -102,7 +102,7 @@ Ember.prototype.update = function() {
     this.lastPos.x -= w;
   }
 
-  return mouseDist < 140;
+  return mouseDist < 140 && hasMouse;
 }
 
 Ember.prototype.parallax = function(amount){

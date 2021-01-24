@@ -124,21 +124,46 @@ nav ul {
   border-bottom-right-radius: 1rem;
 }
 
+#hamburger a img{
+  width: 1.5rem;
+}
+
+#hamburger{
+  left: 0;
+  right: 0;
+  margin: auto;
+  padding: .5rem;
+  width: 3.5rem;
+  background: #262626;
+  transition: background 1s ease;
+  border-bottom-left-radius: 1rem;
+  border-bottom-right-radius: 1rem;
+  display: none;
+}
+
 nav li:hover,
 nav li:focus {
   transform: scale(1.05);
 }
 
+
 /* resposive stuff */
 @media(max-width: 850px) and (min-height: 500px) {
   nav li {
     display: list-item;
-    margin: 1vh;
+    padding: 1vh;
+    margin-top: 0;
+    margin-bottom: 0;
     text-align: center;
   }
 
   nav ul {
+    background: #262626 !important;
     list-style-type: none;
+  }
+
+  #hamburger{
+    display: block;
   }
 }
 
@@ -161,6 +186,15 @@ canvas{
   z-index: -10;
   top: 0;
   left: 0;
+}
+
+/* =================================================== 'About Me' link positioning */
+
+#topReactive a.anchor {
+    display: block;
+    position: relative;
+    top: 50vh;
+    visibility: hidden;
 }
 
 /* =================================================== welcome message */
@@ -200,14 +234,7 @@ canvas{
   }
 }
 
-/* =================================================== about me section
-The use of em allows this to
-be resized using font-size and
-retain its layout.
-
-Probably won't do it that way
-but hey it was nice getting
-it to work.*/
+/* =================================================== bio section*/
 
 #bio {
   position: relative;
@@ -272,10 +299,11 @@ it to work.*/
 }
 
 /* =================================================== refraction simulation */
+#refraction{
+  padding-top: 5rem;
+}
+
 #refractionSim{
-  /*border-color: var(--mainColor);
-  border-width: 2px;
-  border-style: dashed;*/
   padding-top: 80vh;
   margin-left: 2rem;
   margin-right: 2rem;
@@ -474,8 +502,7 @@ it to work.*/
 
 /* =================================================== other experience section */
 .experience {
-  margin-top: 5rem;
-  margin-bottom: 10rem;
+  padding-top: 5rem;
 }
 
 .experience img {
@@ -513,6 +540,7 @@ it to work.*/
 
   .experience .expCard .expDesc {
     text-align: center;
+    margin-left: 0rem;
   }
 }
 
@@ -522,4 +550,19 @@ it to work.*/
     float: left;
     margin-top: 1rem;
   }
+}
+
+/* =================================================== contact section */
+#contact {
+  padding-top: 35vh;
+  padding-bottom: 35vh;
+}
+
+#contact h1{
+  margin-bottom: 1rem;
+}
+
+#contact img{
+  width: 6rem;
+  margin: 2rem;
 }

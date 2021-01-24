@@ -2,6 +2,7 @@
 //(embers and refraction) to use a single canvas while
 //keeping drawing code organized.
 
+const hasMouse = matchMedia('(pointer:fine)').matches;
 const drawingCanvas = document.getElementById("drawingCanvas");
 
 //These end up being used as shorthand
@@ -18,7 +19,7 @@ function canvasUpdate() {
   pen.clearRect(0, 0, w, h);
 
   //defined in embers.js
-  emberSim();
+    emberSim();
 
   //defined in refraction.js
   refractionSim();

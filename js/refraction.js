@@ -21,7 +21,6 @@ let beamVector = new Vector(1, 0);
 let lastMouseY = simHeight / 2;
 let lastMouseX = 100;
 let beamColor = '#83bcfc';
-let waver = 0;
 let firstSegment = true;
 
 //stores two vectors needed to check collision
@@ -140,7 +139,6 @@ function drawRefractors(){
 //this basically just resets all the variables between each frame
 //of simulation.
 function updateRefraction(){
-  waver = (waver + 1) % (2 * Math.PI);
   beamOrigin = addVectors (relBeamOrigin, simOrigin);
   //I accidentally removed the above line and the result is really
   //cool, the origin of the beam doesn't get reset between frames
@@ -153,11 +151,16 @@ function updateRefraction(){
   //be made from that.
 
   //make sure mouse is inside sim before tracking it
-  if(mousePos.x > simOrigin.x && mousePos.x < simOrigin.x + simWidth && mousePos.y > simOrigin.y && mousePos.y < simOrigin.y + simHeight){
-    lastMouseX = mousePos.x - simOrigin.x;
-    lastMouseY = mousePos.y - simOrigin.y;
-    //subtracting then re-adding simOrigin since it will be updated
-    //every frame when scrolling
+  if(hasMouse){
+    if(mousePos.x > simOrigin.x && mousePos.x < simOrigin.x + simWidth && mousePos.y > simOrigin.y && mousePos.y < simOrigin.y + simHeight){
+      lastMouseX = mousePos.x - simOrigin.x;
+      lastMouseY = mousePos.y - simOrigin.y;
+      //subtracting then re-adding simOrigin since it will be updated
+      //every frame when scrolling
+    }
+  }else{
+    lastMouseX = 40 + simOrigin.x;
+    lastMouseY = (h / 2) - simOrigin.y;
   }
   beamVector = diffVector(beamOrigin.x, beamOrigin.y, lastMouseX + simOrigin.x, lastMouseY + simOrigin.y);
   setVecLength(beamVector, maxBeamLength);
@@ -200,7 +203,7 @@ function refract(beamLength, refractor){
   if(firstSegment)
     startOffset = 30;
 
-  pen.lineWidth = 1.5 + .3 * Math.sin(waver);
+  pen.lineWidth = 2;
   pen.strokeStyle = beamColor;
   setVecLength(beamVector, beamLength + offShoot);
   drawVector(addVectors(beamOrigin, angleMagVector(vecAngle(beamVector), startOffset)), angleMagVector(vecAngle(beamVector), beamLength + offShoot - startOffset), pen);
@@ -212,12 +215,11 @@ function refract(beamLength, refractor){
 function drawRefraction(){
   pen.lineWidth = 3;
   pen.strokeStyle = '#d7d7d7';
-  pen.strokeRect(simOrigin.x, simOrigin.y, simWidth, simHeight);
   pen.beginPath();
   pen.arc(beamOrigin.x - 2, beamOrigin.y, 30, -.5 * Math.PI, .5 * Math.PI);
   pen.stroke();
 
-  pen.lineWidth = 1.5 + .3 * Math.sin(waver);
+  pen.lineWidth = 2;
   pen.strokeStyle = beamColor;
   firstSegment = true;
   let refractions = 0;
@@ -233,6 +235,10 @@ function drawRefraction(){
     startOffset = 30;
   //these drawVector calls are so convoluted to accomodate the arc drawn at the start of the beam.
   drawVector(addVectors(beamOrigin, angleMagVector(vecAngle(beamVector), startOffset)), angleMagVector(vecAngle(beamVector), vecLength(beamVector) - startOffset), pen);
+
+  pen.lineWidth = 3;
+  pen.strokeStyle = '#d7d7d7';
+  pen.strokeRect(simOrigin.x, simOrigin.y, simWidth, simHeight);
 
   drawRefractors();
 }
