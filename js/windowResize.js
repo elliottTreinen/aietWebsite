@@ -15,13 +15,11 @@ function debounce(func) {
 }
 
 function resize(){
-  console.log("RESIZED");
-
   w = window.innerWidth;
   h = window.innerHeight;
 
   canvasResize();
-  populateEmbers();
+  resizeEmbers();
 }
 
 window.addEventListener('resize', debounce(resize));

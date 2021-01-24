@@ -166,6 +166,20 @@ function renderEmbers() {
   }
 }
 
+function resizeEmbers(){
+  gradient = pen.createLinearGradient(0, 0, 0, h);
+  gradient.addColorStop(1, '#83bcfc');
+  gradient.addColorStop(.6, '#83bcfc');
+  gradient.addColorStop(0, '#2c2a2c');
+
+  gradient2 = pen.createLinearGradient(0, 0, 0, h);
+  gradient2.addColorStop(1, '#ffcf86');
+  gradient2.addColorStop(.6, '#ffcf86');
+  gradient2.addColorStop(0, '#2c2a2c');
+
+  populateEmbers();
+}
+
 //=================================================this is called every frame in canvasManager.js.
 function emberSim(){
   updateEmbers();

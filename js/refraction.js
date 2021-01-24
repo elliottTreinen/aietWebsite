@@ -37,14 +37,13 @@ borderSet.add(new SimVector(nullVector, leftRight));
 borderSet.add(new SimVector(topBottom, leftRight));
 
 //randomly generating refractor triangles based on sim size
-let refractorRows = Math.floor(simHeight / 150);
-let refractorCols = Math.floor(simWidth / 250);
+let refractorRows = Math.floor(1.5 + simHeight / 300);
+let refractorCols = Math.floor(1.5 + simWidth / 300);
 
-let rowSpace = simHeight / (refractorRows - 1);
-let colSpace = simWidth / (refractorCols - 1);
+let rowSpace = simHeight / (refractorRows);
+let colSpace = simWidth / (refractorCols);
 
-refractorRows--;
-refractorCols--;
+let triangleRadius = Math.min(rowSpace / 2 - (7 + simHeight / 50), colSpace / 2 - (7 + simWidth / 50));
 
 let refractorSet = new Set();
 for(let i = 0; i < refractorCols; i ++)
@@ -54,11 +53,11 @@ for(let i = 0; i < refractorCols; i ++)
     if(i != 0 || refractorRows % 2 == 0 || j != Math.floor(refractorRows / 2)){
       let center = new Vector(colSpace / 2 + colSpace * i, rowSpace / 2 + rowSpace * j);
       let ang = Math.random() * Math.PI * 2;
-      let p1 = addVectors(angleMagVector(ang, 70), center);
+      let p1 = addVectors(angleMagVector(ang, triangleRadius), center);
       ang += Math.PI / 3 + Math.random() * Math.PI * .4;
-      let p2 = addVectors(angleMagVector(ang, 70), center);
+      let p2 = addVectors(angleMagVector(ang, triangleRadius), center);
       ang += Math.PI / 3 + Math.random() * Math.PI * .4;
-      let p3 = addVectors(angleMagVector(ang, 70), center);
+      let p3 = addVectors(angleMagVector(ang, triangleRadius), center);
 
       refractorSet.add(new SimVector(p1, subVectors(p2, p1)));
       refractorSet.add(new SimVector(p2, subVectors(p3, p2)));
@@ -159,7 +158,7 @@ function updateRefraction(){
       //every frame when scrolling
     }
   }else{
-    lastMouseX = 40 + simOrigin.x;
+    lastMouseX = 30 + simOrigin.x;
     lastMouseY = (h / 2) - simOrigin.y;
   }
   beamVector = diffVector(beamOrigin.x, beamOrigin.y, lastMouseX + simOrigin.x, lastMouseY + simOrigin.y);
