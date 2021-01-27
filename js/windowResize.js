@@ -20,6 +20,7 @@ function resize(){
 
   canvasResize();
   resizeEmbers();
+  resizeRefraction();
 }
 
 window.addEventListener('resize', debounce(resize));

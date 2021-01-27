@@ -1,15 +1,15 @@
 const simSection = document.getElementById("refractionSim");
 let simBorder = simSection.getBoundingClientRect();
 let simOrigin = new Vector(simBorder.x, simBorder.y);//sim box's location relative to screen
-const simHeight = simBorder.height;
-const simWidth = simBorder.width;
+let simHeight = simBorder.height;
+let simWidth = simBorder.width;
 
 //vectors representing the edges of the sim container
-const topBottom = new Vector(simWidth, 0);
-const leftRight = new Vector(0, simHeight);
+let topBottom = new Vector(simWidth, 0);
+let leftRight = new Vector(0, simHeight);
 
-const maxBeamLength = Math.sqrt(simHeight * simHeight + simWidth * simWidth);//furthest distance we'll have to check for collision
-const relBeamOrigin = new Vector(2, simHeight / 2);//where the beam starts relative to the simOrigin
+let maxBeamLength = Math.sqrt(simHeight * simHeight + simWidth * simWidth);//furthest distance we'll have to check for collision
+let relBeamOrigin = new Vector(2, simHeight / 2);//where the beam starts relative to the simOrigin
 
 //these are the refractive indices being used
 const air_n = 1;
@@ -31,37 +31,45 @@ function SimVector(_pos, _vec){
 
 //we can check these vectors to see if the beam is at the edge of the sim
 let borderSet = new Set();
-borderSet.add(new SimVector(nullVector, topBottom));
-borderSet.add(new SimVector(leftRight, topBottom));
-borderSet.add(new SimVector(nullVector, leftRight));
-borderSet.add(new SimVector(topBottom, leftRight));
 
-//randomly generating refractor triangles based on sim size
-let refractorRows = Math.floor(1.5 + simHeight / 300);
-let refractorCols = Math.floor(1.5 + simWidth / 300);
-
-let rowSpace = simHeight / (refractorRows);
-let colSpace = simWidth / (refractorCols);
-
-let triangleRadius = Math.min(rowSpace / 2 - (7 + simHeight / 50), colSpace / 2 - (7 + simWidth / 50));
+function addBorders(){
+  borderSet.clear();
+  borderSet.add(new SimVector(nullVector, topBottom));
+  borderSet.add(new SimVector(leftRight, topBottom));
+  borderSet.add(new SimVector(nullVector, leftRight));
+  borderSet.add(new SimVector(topBottom, leftRight));
+}
 
 let refractorSet = new Set();
-for(let i = 0; i < refractorCols; i ++)
-{
-  for(let j = 0; j < refractorRows; j ++)
-  {
-    if(i != 0 || refractorRows % 2 == 0 || j != Math.floor(refractorRows / 2)){
-      let center = new Vector(colSpace / 2 + colSpace * i, rowSpace / 2 + rowSpace * j);
-      let ang = Math.random() * Math.PI * 2;
-      let p1 = addVectors(angleMagVector(ang, triangleRadius), center);
-      ang += Math.PI / 3 + Math.random() * Math.PI * .4;
-      let p2 = addVectors(angleMagVector(ang, triangleRadius), center);
-      ang += Math.PI / 3 + Math.random() * Math.PI * .4;
-      let p3 = addVectors(angleMagVector(ang, triangleRadius), center);
 
-      refractorSet.add(new SimVector(p1, subVectors(p2, p1)));
-      refractorSet.add(new SimVector(p2, subVectors(p3, p2)));
-      refractorSet.add(new SimVector(p3, subVectors(p1, p3)));
+//randomly generating refractor triangles based on sim size
+function generateRefractors(){
+  refractorSet.clear();
+  let refractorRows = Math.floor(1.5 + simHeight / 300);
+  let refractorCols = Math.floor(1.5 + simWidth / 300);
+
+  let rowSpace = simHeight / (refractorRows);
+  let colSpace = simWidth / (refractorCols);
+
+  let triangleRadius = Math.min(rowSpace / 2 - (7 + simHeight / 50), colSpace / 2 - (7 + simWidth / 50));
+
+  for(let i = 0; i < refractorCols; i ++)
+  {
+    for(let j = 0; j < refractorRows; j ++)
+    {
+      if(i != 0 || refractorRows % 2 == 0 || j != Math.floor(refractorRows / 2)){
+        let center = new Vector(colSpace / 2 + colSpace * i, rowSpace / 2 + rowSpace * j);
+        let ang = Math.random() * Math.PI * 2;
+        let p1 = addVectors(angleMagVector(ang, triangleRadius), center);
+        ang += Math.PI / 3 + Math.random() * Math.PI * .4;
+        let p2 = addVectors(angleMagVector(ang, triangleRadius), center);
+        ang += Math.PI / 3 + Math.random() * Math.PI * .4;
+        let p3 = addVectors(angleMagVector(ang, triangleRadius), center);
+
+        refractorSet.add(new SimVector(p1, subVectors(p2, p1)));
+        refractorSet.add(new SimVector(p2, subVectors(p3, p2)));
+        refractorSet.add(new SimVector(p3, subVectors(p1, p3)));
+      }
     }
   }
 }
@@ -69,18 +77,27 @@ for(let i = 0; i < refractorCols; i ++)
 //caching the refractor drawings on a second canvas
 //(this was supposed to improve performance, I don't think it did.)
 let refractorCanvas = document.createElement('canvas');
-refractorCanvas.width = drawingCanvas.width;
-refractorCanvas.height = drawingCanvas.height;
-
 let refPen = refractorCanvas.getContext("2d");
 
-refPen.lineWidth = 3;
-refPen.strokeStyle = '#d7d7d7';
+function cacheRefractors(){
+  refractorCanvas.width = drawingCanvas.width;
+  refractorCanvas.height = drawingCanvas.height;
 
-for(rfr of refractorSet){
-  drawVector(rfr.pos, rfr.vec, refPen);
+  refPen.lineWidth = 3;
+  refPen.strokeStyle = '#d7d7d7';
+
+  for(rfr of refractorSet){
+    drawVector(rfr.pos, rfr.vec, refPen);
+  }
 }
 
+function generateRefractionSim() {
+    addBorders();
+    generateRefractors();
+    cacheRefractors();
+}
+
+generateRefractionSim();
 
 //updates the sim's position on the canvas to appear as though it's
 //scrolling with the page elements. It kinda lags behind still which
@@ -91,6 +108,29 @@ function scrollRefraction(){
   onScreen = false;
   if(simBorder.top < h && simBorder.bottom > 0)
     onScreen = true;
+}
+
+//only resize if sim size has changed by more than 15% in either direction
+//this will hopefully prevent it from constantly regenerating on mobile
+function resizeRefraction(){
+  let tempBorder = simSection.getBoundingClientRect();
+  let newWidth = tempBorder.width;
+  let newHeight = tempBorder.height;
+
+  if(Math.abs(simWidth - newWidth) > simWidth * .15 || Math.abs(simHeight - newHeight) > simHeight * .15){
+    console.log("RESIZING SIM");
+    simBorder = tempBorder;
+    simWidth = newWidth;
+    simHeight = newHeight;
+    simOrigin.x = simBorder.x;
+    simOrigin.y = simBorder.y;
+    topBottom.x = simWidth;
+    leftRight.y = simHeight;
+    maxBeamLength = Math.sqrt(simHeight * simHeight + simWidth * simWidth);//furthest distance we'll have to check for collision
+    relBeamOrigin.y = simHeight / 2;
+
+    generateRefractionSim();
+  }
 }
 
 //find where the beam intersects with the border of the sim and adjusts the beam accordingly.
