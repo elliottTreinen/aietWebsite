@@ -31,7 +31,6 @@ function SimVector(_pos, _vec){
 
 //we can check these vectors to see if the beam is at the edge of the sim
 let borderSet = new Set();
-
 function addBorders(){
   borderSet.clear();
   borderSet.add(new SimVector(nullVector, topBottom));
@@ -91,6 +90,7 @@ function cacheRefractors(){
   }
 }
 
+//calling this reloads the simulation to fit the current screen size
 function generateRefractionSim() {
     addBorders();
     generateRefractors();
@@ -147,7 +147,6 @@ function checkBorders(){
 function checkRefractors(){
   let closestRefractor = null;
   let closestDist = -1;
-
   //find the nearest collider the beam collides with
   for(refractor of refractorSet){
     let sect = intersection(beamOrigin, beamVector, addVectors(refractor.pos, simOrigin), refractor.vec);
@@ -159,13 +158,11 @@ function checkRefractors(){
       }
     }
   }
-
   //if it hits a refractor, refract accordingly.
   if(closestDist != -1){
     refract(closestDist, closestRefractor);
     return true;
   }
-
   return false;
 }
 
@@ -205,20 +202,28 @@ function updateRefraction(){
   inRefractor = false;
 }
 
+//the heart of the simulation. Takes a reference to the refractor hit
+//by the beam and how far away the collision is from the beam origin.
+//Uses vector math and Snell's law to calculate the angle of incidence
+//followed by the angle of refraction. Rotates the beam accordingly
+//and sets the origin so it's ready to look for the next refractor.
 function refract(beamLength, refractor){
   let n1 = (inRefractor ? refractor_n : air_n);
   let n2 = (inRefractor ? air_n : refractor_n);
 
+  //get the vector normal to the refractor, pointing away from the  beam origin.
   let normalVec = angleMagVector(vecAngle(refractor.vec) + Math.PI / 2, 10);
   if(vecAngleDiff(beamVector, normalVec) > Math.PI / 2) {
     multVector(normalVec, -1);
   }
 
+  //calculate angles of incidence and refraction
   let theta1 = vecAngleDiff(beamVector, normalVec);
   let theta2 = Math.asin((n1 * Math.sin(theta1)) / n2);
 
   let offShoot = .1; //makes sure we don't hit the same refractor again
 
+  //check for total internal refraction
   if(isNaN(theta2)){
     theta2 = Math.PI - theta1;
     offShoot *= -1;
@@ -228,7 +233,8 @@ function refract(beamLength, refractor){
 
   let normalAngle = vecAngle(normalVec);
   let beamAngle = vecAngle(beamVector);
-
+  //make sure the beam refracts in the right direction and doesn't
+  //"double back" on itself.
   if(normalAngle < 0){
     if(!(beamAngle > normalAngle && beamAngle < normalAngle + Math.PI))
       theta2 *= -1;
@@ -237,10 +243,12 @@ function refract(beamLength, refractor){
       theta2 *= -1;
   }
 
+  //accomodate the arc at the start of the beam.
   let startOffset = 0;
   if(firstSegment)
     startOffset = 30;
 
+  //draw last beam segment and rotate for the next
   pen.lineWidth = 2;
   pen.strokeStyle = beamColor;
   setVecLength(beamVector, beamLength + offShoot);
@@ -250,6 +258,7 @@ function refract(beamLength, refractor){
   firstSegment = false;
 }
 
+//draws the whole simulation
 function drawRefraction(){
   pen.lineWidth = 3;
   pen.strokeStyle = '#d7d7d7';
@@ -262,15 +271,18 @@ function drawRefraction(){
   firstSegment = true;
   let refractions = 0;
 
+  //draws each segment of the beam, capped at 100 to be safe.
   while(checkRefractors() && refractions < 100){
     refractions++;
   }
 
+  //find where the beam hits the edge of the sim
   checkBorders();
 
   let startOffset = 0;
   if(firstSegment)
     startOffset = 30;
+  
   //these drawVector calls are so convoluted to accomodate the arc drawn at the start of the beam.
   drawVector(addVectors(beamOrigin, angleMagVector(vecAngle(beamVector), startOffset)), angleMagVector(vecAngle(beamVector), vecLength(beamVector) - startOffset), pen);
 
