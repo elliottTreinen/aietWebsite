@@ -15,6 +15,8 @@ function closeMenu(){
   if(window.innerWidth <= 850){
     menu.style.display = "none";
     expanded = false;
+  }else{
+    openMenu();
   }
 }
 

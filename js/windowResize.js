@@ -1,4 +1,4 @@
-
+let refractionCaption = document.getElementById("refraction p")
 
 let w = window.innerWidth;
 let h = window.innerHeight;
@@ -21,6 +21,7 @@ function resize(){
   canvasResize();
   resizeEmbers();
   resizeRefraction();
+  closeMenu();
 }
 
 window.addEventListener('resize', debounce(resize));

@@ -118,7 +118,6 @@ function resizeRefraction(){
   let newHeight = tempBorder.height;
 
   if(Math.abs(simWidth - newWidth) > simWidth * .15 || Math.abs(simHeight - newHeight) > simHeight * .15){
-    console.log("RESIZING SIM");
     simBorder = tempBorder;
     simWidth = newWidth;
     simHeight = newHeight;
