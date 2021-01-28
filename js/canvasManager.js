@@ -23,7 +23,7 @@ function canvasUpdate() {
   pen.clearRect(0, 0, w, h);
 
   //defined in embers.js
-    emberSim();
+  emberSim();
 
   //defined in refraction.js
   refractionSim();

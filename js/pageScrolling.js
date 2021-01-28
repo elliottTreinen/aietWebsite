@@ -48,7 +48,10 @@ function updateContent() {
     emberBehavior = true;
   }
 
+  //defined in embers.js
   scrollEmbers();
+  //defined in refraction.js
   scrollRefraction();
+  //defined in navMenu.js
   closeMenu();
 }

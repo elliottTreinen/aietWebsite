@@ -1,4 +1,3 @@
-//USES THROTTLE METHOD FROM scrollThrottle.js !!!
 let mousePos = new Vector(0, 0);
 
 
@@ -21,5 +20,6 @@ let updateMouse = (event) => {
 //I'm not entirely sure this is necessary,
 //but better safe than sorry.
 //updateMouse = throttle(updateMouse);
+//Never mind, see my update in scrollThrottle.js.
 
 window.addEventListener('mousemove', updateMouse);
